@@ -9,7 +9,7 @@ namespace elc
 		for (int i = 0; i < size; i++)
 			temp[i] = list[i];
 		this->size = _size;
-	//	delete[] list; // major bug
+		//	delete[] list; // major bug
 		list = temp;
 		return true;
 	}
@@ -26,20 +26,20 @@ namespace elc
 		{
 			setSize(size * 2);
 		}
-		list[length].setParty(_partyName,boss);
-		list[length].setElectorsSize(numOfDistricts+1);
+		list[length].setParty(_partyName, boss);
+		list[length].setElectorsSize(numOfDistricts + 1);
 		list[length].setElectorsLength(numOfDistricts);
 		list[length].setPartyNumber(length);
 		setLength(length + 1);
 		return true;
 	}
 
-	bool PartyList::addRepInParty(const Citizen& rep , int partyID, int distID)
+	bool PartyList::addRepInParty(const Citizen& rep, int partyID, int distID)
 	{
 		list[partyID].addSenator(distID, rep);
 		return true;
 	}
-	
+
 	int PartyList::getSize() const
 	{
 		return this->size;
@@ -68,7 +68,7 @@ namespace elc
 
 	const int& PartyList::getPartyElectorsLength(const int& partyID) const
 	{
-		 return list[partyID].getElectorsLength(); 
+		return list[partyID].getElectorsLength();
 	}
 
 	const char* const PartyList::getPartyName(const int& partyID) const

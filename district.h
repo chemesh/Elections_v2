@@ -32,8 +32,6 @@ namespace elc
 			cout << "district ctor v1" << endl;
 		};
 
-
-
 		District(char* _name, int _numOfReps) : name(_name), distID(0), totalReps(_numOfReps),
 			citizens(), RepsList(nullptr), reps_size(1), reps_lentgh(0), voters_precentage(0)
 		{
@@ -42,17 +40,20 @@ namespace elc
 			cout << "district ctor v2";
 			//numberOfDistrict++;
 		};
-		~District() { 
+
+		District(const District&);
+
+		~District() {
 			if (RepsList != nullptr)
-				delete[] RepsList; 
+				delete[] RepsList;
 			if (name != nullptr)
-				delete[] name; 
+				delete[] name;
 		}
 
 
 		bool setDistName(const char*);
 		bool setDistID(const int&);
-		bool setDistCitizenInList(const Citizen& );
+		bool setDistCitizenInList(const Citizen&);
 		bool setVoters(int& allCitizens);
 		bool setCongressManInList(const Senator&);
 		bool setDistReps(const int&);
@@ -78,7 +79,7 @@ namespace elc
 		//const Elector& getCongressMen() const;
 		int getDistReps() const;
 
-		
+
 
 		bool isRepListFull(void) { return (reps_size == reps_lentgh); }
 		bool addNewPartyReps(Party _newParty, int numOfReps);
@@ -100,5 +101,5 @@ namespace elc
 
 		void operator=(const District&);
 	};
-	
+
 }

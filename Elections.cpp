@@ -2,7 +2,7 @@
 #include <iostream>
 
 using namespace std;
-namespace elc{
+namespace elc {
 
 	bool Elections::setDate(char* _date)
 	{
@@ -14,12 +14,12 @@ namespace elc{
 		return true;
 	}
 
-	void Elections::addCitizen(char *name, int id, int dist, int yob)
+	void Elections::addCitizen(const char* name, int id, const District& dist, int yob)
 	{
 		citizens.setCitizen(name, id, yob, dist);
 		districts.setCitizenInDist(*citizens.getCitizen(id), dist);
 	}
-	void Elections::addParty(char *name, const Citizen& boss)
+	void Elections::addParty(char* name, const Citizen& boss)
 	{
 		parties.setParty(name, boss, districts.getLength());
 	}
@@ -28,9 +28,9 @@ namespace elc{
 		districts.setDistrict(name, num);
 	}
 
-	int Elections::getPartiesLength() const { return parties.getLength() ;	}
-	int Elections::getCitizensLength() const { return citizens.getLength();	}
-	int Elections::getDistrictsLength() const { return districts.getLength();	}
+	int Elections::getPartiesLength() const { return parties.getLength(); }
+	int Elections::getCitizensLength() const { return citizens.getLength(); }
+	int Elections::getDistrictsLength() const { return districts.getLength(); }
 
 	void Elections::printCitizens() { cout << citizens; }
 	void Elections::printParties() { cout << parties; }
@@ -86,10 +86,10 @@ namespace elc{
 
 	void Elections::setResults()
 	{
-		bool flag=true;
-		for (int i=0; i < getDistrictsLength(); i++)
+		bool flag = true;
+		for (int i = 0; i < getDistrictsLength(); i++)
 		{
-			voting.setElectorsInDist(parties, getDistrict(i,flag));
+			voting.setElectorsInDist(parties, getDistrict(i, flag));
 		}
 	}
 

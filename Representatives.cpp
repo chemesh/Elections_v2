@@ -10,7 +10,7 @@ namespace elc {
 		return true;
 	}
 
-	int Representatives::getPartyID() const { return PartyID ; }
+	int Representatives::getPartyID() const { return PartyID; }
 
 	bool Representatives::addSenator(const Citizen& rep)
 	{
@@ -31,7 +31,7 @@ namespace elc {
 	bool Representatives::addSenator(const Senator& _new)
 	{
 		return addSenator(_new.getId());
-		
+
 	}
 
 	void Representatives::makeEmpty(void)

@@ -25,7 +25,7 @@ namespace  elc {
 		int getSize() const;
 		int getLength() const;
 		const char* const getPartyName(const int& partyID) const;
-		Party& getParty(const int& partyID)const ;
+		Party& getParty(const int& partyID)const;
 		const int& getPartyElectorsLength(const int& partyID) const;
 
 		bool AddNewDistToParties(int);

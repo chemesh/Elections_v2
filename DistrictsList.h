@@ -20,11 +20,11 @@ namespace  elc {
 		bool setSize(const int&);
 		bool setLength(const int&);
 		bool setDistrict(char* _DistrictName, int numOfReps);
-		bool setCitizenInDist(const Citizen&, int distID);
+		bool setCitizenInDist(const Citizen&, const District& dist);
 
 		int getSize() const;
 		int getLength() const;
-		const District* getList() const { return list; }
+		const District* getList() const { return (list); }
 		const District& getDistrict(const int& distID) const { return list[distID]; }
 		District& getDistrict(int distID, bool flag) const { return list[distID]; }
 		const int& getTotalRepsInDist(const int& distID) const { return list[distID].getDistReps(); }
@@ -38,6 +38,8 @@ namespace  elc {
 		//		cout << list[i] << '\n';
 		//	}
 		//}
+
+		void operator=(const DistrictsList& o);
 
 		void PrintNameAndId() //new function
 		{

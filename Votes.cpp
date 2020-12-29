@@ -4,7 +4,7 @@
 using namespace std;
 namespace elc
 {
-	Votes::Votes(int _numOfParties, int _numOfDistricts):
+	Votes::Votes(int _numOfParties, int _numOfDistricts) :
 		numOfDistricts(_numOfDistricts), numOfParties(_numOfParties)
 	{
 		setVotes_table();
@@ -17,8 +17,8 @@ namespace elc
 	{
 		int i;
 
-		if(votes_table!=nullptr)
-		{ 
+		if (votes_table != nullptr)
+		{
 			for (i = 0; i < numOfDistricts; i++)
 			{
 				delete[] votes_table[i];
@@ -84,7 +84,7 @@ namespace elc
 
 	bool Votes::setVote(Citizen& voter, int PartyID)
 	{
-		votes_table[voter.getDistrict()][PartyID]++;
+		votes_table[voter.getDistrict().getDistID()][PartyID]++;
 		voter.setVote(true);
 		return true;
 	}
@@ -101,7 +101,7 @@ namespace elc
 
 	const int Votes::getTotalPartyVotes(const int& partyID) const
 	{
-		int i, sum=0;
+		int i, sum = 0;
 
 		for (i = 0; i < numOfDistricts; i++)
 		{
@@ -110,7 +110,7 @@ namespace elc
 		return sum;
 	}
 
-	const int Votes::getTotalVotesInDistrict(const int& DistID) const 
+	const int Votes::getTotalVotesInDistrict(const int& DistID) const
 	{
 		int i, sum = 0;
 
@@ -135,13 +135,13 @@ namespace elc
 	void Votes::setElectorsInDist(PartyList& parties, District& dist)
 	{
 		int i, j, partyElectors, totalVotes = getTotalVotesInDistrict(dist.getDistID());
-		float partyPrecent, approxElectors,avg=(float)dist.getDistReps()/numOfParties;
+		float partyPrecent, approxElectors, avg = (float)dist.getDistReps() / numOfParties;
 		const Senator* temp;
 
 		for (i = 0; i < numOfParties; i++)
 		{
 			partyPrecent = getPartyVotesPrecentageInDist(i, dist.getDistID());
-			approxElectors = (partyPrecent/100) * dist.getDistReps();
+			approxElectors = (partyPrecent / 100) * dist.getDistReps();
 			partyElectors = (int)approxElectors;
 			if (approxElectors - partyElectors >= avg)
 				partyElectors += 1;
@@ -152,9 +152,9 @@ namespace elc
 		for (i = 0; i < numOfParties; i++)
 		{
 			temp = parties.getParty(i).getElectorListInDist(dist.getDistID());
-			for (j = 0; j < electors[dist.getDistID()][i];j++)
+			for (j = 0; j < electors[dist.getDistID()][i]; j++)
 			{
-				
+
 				dist.setSenatorInDistReps(temp, parties.getParty(i).getPartyNumber());
 				temp = temp->getNext();
 			}
@@ -170,9 +170,9 @@ namespace elc
 	const int Votes::getWinnerIDInDist(const int& distID) const
 	{
 		//-1 is for sanity check
-		int i, max = 0, winningPartyID=-1;
+		int i, max = 0, winningPartyID = -1;
 
-		for (i = 0; i < numOfParties ; i++)
+		for (i = 0; i < numOfParties; i++)
 		{
 			if (votes_table[distID][i] > max)
 			{
@@ -185,7 +185,7 @@ namespace elc
 
 	const int Votes::getWinner() const
 	{
-		int i,j, max = 0, tempSum, winnerID=-1;
+		int i, j, max = 0, tempSum, winnerID = -1;
 		int* counter = new int[numOfParties];
 		for (i = 0; i < numOfParties; i++)
 			counter[i] = 0;
@@ -196,7 +196,7 @@ namespace elc
 			tempSum = 0;
 			for (j = 0; j < numOfParties; j++)
 				tempSum += electors[i][j];
-			
+
 			counter[getWinnerIDInDist(i)] += tempSum;
 		}
 
@@ -211,7 +211,7 @@ namespace elc
 		}
 		delete[] counter;
 		return winnerID;
-	
+
 	}
 
 

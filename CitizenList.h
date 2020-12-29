@@ -18,14 +18,14 @@ namespace elc {
 		void merge(Citizen*, int l, int m, int r);
 
 	public:
-		CitizensList(int _size = 1) : length(0) , size(_size) { list = new Citizen[_size]; }
+		CitizensList(int _size = 1) : length(0), size(_size) { list = new Citizen[_size]; }
 		~CitizensList() { delete[] list; }
 
 		bool setSize(const int&);
 		bool setLength(const int&);
 		bool setCitizen(const Citizen&);
-		bool setCitizen(char* name, int id, int yob, int district);
-		
+		bool setCitizen(const char* name, int id, int yob, const District& district);
+
 
 		int getSize() const;
 		int getLength() const;
@@ -39,7 +39,7 @@ namespace elc {
 
 		void CitizenSort() { mergeSort(list, 0, length); }
 
-		
+
 		//void printList()
 		//{
 		//	for (int i = 0; i < length; i++)
@@ -47,6 +47,8 @@ namespace elc {
 		//		cout << list[i] << '\n';
 		//	}
 		//}
+
+		void operator=(const CitizensList&);
 
 		friend std::ostream& operator<<(std::ostream& out, const CitizensList& other)
 		{
@@ -56,6 +58,6 @@ namespace elc {
 			}
 			return out;
 		}
-		
+
 	};
 }

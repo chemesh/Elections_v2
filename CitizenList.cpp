@@ -20,7 +20,7 @@ namespace elc
 		return true;
 	}
 
-	bool CitizensList::setCitizen(char* name, int id, int yob, int district)
+	bool CitizensList::setCitizen(const char* name, int id, int yob, const District& district)
 	{
 		if (isFull())
 		{
@@ -33,13 +33,15 @@ namespace elc
 
 	bool CitizensList::setCitizen(const Citizen& citizen)
 	{
-		if (isFull())
-		{
-			setSize(size * 2);
-		}
-		list[length] = citizen;
-		setLength(length + 1);
-		return true;
+		setCitizen(citizen.getName(), citizen.getID(), citizen.getYOB(), citizen.getDistrict());
+
+		//if (isFull())
+		//{
+		//	setSize(size * 2);
+		//}
+		//list[length] = citizen;
+		//setLength(length + 1);
+		//return true;
 	}
 
 	int CitizensList::getSize() const
@@ -71,7 +73,7 @@ namespace elc
 			if (id < list[mid].getID())
 				end = mid;
 			else if (id > list[mid].getID())
-				start = mid+1;
+				start = mid + 1;
 			else		//id == list[mid].id
 				return mid;
 		}
@@ -120,10 +122,10 @@ namespace elc
 
 	void CitizensList::merge(Citizen* arr, int l, int m, int r)
 	{
-		int idx1 = l, idx2 = m + 1; 
+		int idx1 = l, idx2 = m + 1;
 		int j = 0, _size = (r - l + 1);
 		Citizen* temp = new Citizen[_size];
-		
+
 
 		while (idx1 < m && idx2 < r)
 		{
@@ -145,6 +147,17 @@ namespace elc
 			arr[i] = temp[i];
 
 		delete[] temp;
+	}
+
+	void CitizensList::operator=(const CitizensList& o)
+	{
+		setSize(o.size);
+		setLength(o.length);
+		for (int i = 0; i < o.length; i++)
+		{
+			list[i] = o.list[i];
+		}
+
 	}
 
 
