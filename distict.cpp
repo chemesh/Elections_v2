@@ -3,14 +3,10 @@
 
 namespace elc
 {
-	//District::District(char* _name, int numOfReps) :
-	//	distID(0), voters_precentage(0)
-	//{
-	//	District::setDistName(_name);
-	//	District::setDistReps(numOfReps);
-	//}
-	//int District::numberOfDistrict = 0;
-
+	District::District(const District& o)
+	{
+		*this = o;
+	}
 
 	bool District::setDistName(const char* _name)
 	{
@@ -29,9 +25,9 @@ namespace elc
 	bool District::setDistCitizenInList(const Citizen& _citizen)
 	{
 		return citizens.setCitizen(_citizen);
-		
+
 	}
-	
+
 	bool District::setVoters(int& allCitizens)
 	{
 		voters_precentage = citizens.getLength() / float(allCitizens);
@@ -85,10 +81,10 @@ namespace elc
 		return distID;
 	}
 
-	//const CitizensList& District::GetDistCitizens() const
-	//{
-	//	return citizens;
-	//}
+	const CitizensList& District::GetDistCitizens() const
+	{
+		return citizens;
+	}
 
 	const float& District::getVoters() const
 	{
@@ -135,7 +131,7 @@ namespace elc
 	}
 
 
-	bool District::setDistrict(const char* _name, int id, int numOfReps, float voterPer,const CitizensList& cList, Representatives* rList)
+	bool District::setDistrict(const char* _name, int id, int numOfReps, float voterPer, const CitizensList& cList, Representatives* rList)
 	{
 		return (setDistName(_name) && setDistID(id) && setDistReps(numOfReps) &&
 			setVotersPersentage(voterPer) && setCitizenList(cList) && setRepsList(rList));
@@ -159,7 +155,7 @@ namespace elc
 
 		for (i = 1; i <= numOfReps; i++)
 		{
-			RepsList[reps_lentgh].addSenator(_newParty.getSenatorInDist(distID,i));
+			RepsList[reps_lentgh].addSenator(_newParty.getSenatorInDist(distID, i));
 		}
 		reps_lentgh++;
 		return true;
@@ -170,5 +166,5 @@ namespace elc
 		setDistrict(o.name, o.distID, o.totalReps, o.voters_precentage, o.citizens, o.RepsList);
 	}
 
-	
+
 }

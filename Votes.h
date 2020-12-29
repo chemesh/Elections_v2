@@ -13,11 +13,11 @@ namespace elc
 	{
 	private:
 		//holds in each cell the number of votes
-		int** votes_table; 
-		
+		int** votes_table;
+
 		//holds in each cell the number of electors from each party
 		//in every district
-		int** electors; 
+		int** electors;
 
 		int numOfParties;
 		int numOfDistricts;
@@ -38,19 +38,19 @@ namespace elc
 
 		const int& getnumOfParties();
 		const int& getnumOfDistricts();
-		const int getTotalPartyVotes(const int& partyID)const ;
-		const int getTotalVotesInDistrict(const int& DistID)const ;
-		const int getPartyVotesInDist(const int& PartyID, const int& distID)const ;
-		const float getPartyVotesPrecentageInDist(const int& PartyID, const int& distID)const ;
+		const int getTotalPartyVotes(const int& partyID)const;
+		const int getTotalVotesInDistrict(const int& DistID)const;
+		const int getPartyVotesInDist(const int& PartyID, const int& distID)const;
+		const float getPartyVotesPrecentageInDist(const int& PartyID, const int& distID)const;
 
 		//calculates the number of electors won for each Party in the district,
 		//then adds the newly chosen senators under their party ID to the district representatives.
 		void setElectorsInDist(PartyList& parties, District& dist);
 		const int getElectorsforPartyInDist(const int& partyID, const int& distID) const;
-		const int getWinnerIDInDist(const int& distID) const ;
-		const int getWinner() const ;
+		const int getWinnerIDInDist(const int& distID) const;
+		const int getWinner() const;
 
-		
+
 	};
 
 

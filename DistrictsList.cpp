@@ -33,9 +33,9 @@ namespace elc
 	}
 
 	//added
-	bool DistrictsList::setCitizenInDist(const Citizen& resident, int distID)
+	bool DistrictsList::setCitizenInDist(const Citizen& resident, const District& dist)
 	{
-		list[distID].setDistCitizenInList(resident);
+		list[dist.getDistID()].setDistCitizenInList(resident);
 		return true;
 	}
 
@@ -55,4 +55,15 @@ namespace elc
 			return true;
 		return false;
 	}
+
+	void DistrictsList::operator=(const DistrictsList& o)
+	{
+		setSize(o.size);
+		setLength(o.length);
+		for (int i = 0; i < o.length; i++)
+		{
+			list[i] = o.list[i];
+		}
+	}
+
 }

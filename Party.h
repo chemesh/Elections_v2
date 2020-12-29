@@ -8,7 +8,7 @@
 using namespace std;
 namespace elc {
 
-class Senator {
+	class Senator {
 	private:
 		Citizen candidate;
 		Senator* next;
@@ -21,10 +21,10 @@ class Senator {
 		bool setCandidate(const Citizen&);
 		const Citizen& getCandidate() const;
 		bool setNext(Senator* next);
-};
+	};
 
 	//each class of elector, represent the list of representives of the party, for the district.
-	class Elector { 
+	class Elector {
 
 	private:
 		int districtId;
@@ -48,7 +48,7 @@ class Senator {
 
 		bool addSenator(const Citizen& rep); //addTotail
 		const Senator& getSenator(int place);
-		
+
 		void printElector()
 		{
 			Senator* temp = head;
@@ -74,20 +74,20 @@ class Senator {
 		char* partyName;
 		Citizen boss; //citizen&
 		Elector* electors; //each node of the arrays represents one district, with a list of the party electors
-		int elec_size; 
+		int elec_size;
 		int elec_length; //logi
 		static int numberOfParty;
 
 	public:
-		
-		Party() : Party(nullptr,0){}
+
+		Party() : Party(nullptr, 0) {}
 		Party(char* _partyName, int numOfDistricts = 0) :
 			partyName(_partyName), elec_size(numOfDistricts + 1), elec_length(numOfDistricts), partyNumber(numberOfParty)
 		{
 			createElectorsList(elec_size);
 			numberOfParty++;
 		}
-		Party(char* _partyName, const Citizen& _boss, int numOfDistricts=0)
+		Party(char* _partyName, const Citizen& _boss, int numOfDistricts = 0)
 			: partyName(_partyName), elec_size(numOfDistricts + 1), elec_length(numOfDistricts), partyNumber(numberOfParty), boss(_boss)
 		{
 			createElectorsList(elec_size);
@@ -96,7 +96,7 @@ class Senator {
 
 		~Party()
 		{
-			if(electors != nullptr)
+			if (electors != nullptr)
 				delete[] electors;
 			if (partyName != nullptr)
 				delete[] partyName;
@@ -113,9 +113,9 @@ class Senator {
 		//why?
 		bool setElectors(Elector* e);
 		//
-		bool setParty(char *partyName, const Citizen& boss, int n, Elector* e, int el_size, int el_len);
+		bool setParty(char* partyName, const Citizen& boss, int n, Elector* e, int el_size, int el_len);
 		bool setParty(char* partyName, const Citizen& boss, int numOfDistricts);
-		bool setParty(char *partyName, const Citizen& boss);
+		bool setParty(char* partyName, const Citizen& boss);
 		bool createElectorsList(int numOfDistricts);
 		bool addSenator(int numOfDistrict, const Citizen& rep);
 
@@ -130,7 +130,7 @@ class Senator {
 		bool isElectorsFull(void) { return (elec_size == elec_length); }
 		bool AddNewDistElector(int distID);
 
-		 void printElectors()
+		void printElectors()
 		{
 			for (int i = 0; i < elec_length; i++)
 				cout << electors[i];

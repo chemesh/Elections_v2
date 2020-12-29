@@ -6,7 +6,7 @@ citizen - name, id, DOB, living district
 party - candidate, list of representives,
 - add citizen as representitive (CIN of id, num of party, name of district)
 
-district - name, id, list of aproved voters (list of citizen id), 
+district - name, id, list of aproved voters (list of citizen id),
 		   percent of voters, won(data stucr that containes lists of representiteves),
 
 electionRound
@@ -20,25 +20,33 @@ electionRound
 #include "Citizen.h"
 #include <iostream>
 
-namespace elc {  
+namespace elc {
 
-	Citizen::~Citizen() 
+	Citizen::~Citizen()
 	{ //major bug, for now row 12 of districtlist.cpp is hiden...
 		std::cout << "citizen dtor:" << std::endl;
 		if (this->name != nullptr)
 			delete[] this->name; ///ERROR????
 	}
 
-	char* Citizen::getName() const { return name; }
-	int Citizen::getID() const { return ID;  }
-	int Citizen::getDistrict() const { return districtId;  }
+	Citizen::Citizen(const Citizen& other)
+	{
+		setCitizen(other.name, other.ID, other.dist, other.YOB);
+	}
+
+	const char* Citizen::getName() const { return name; }
+	int Citizen::getID() const { return ID; }
+	const District& Citizen::getDistrict() const { return dist; }
 	int Citizen::getYOB() const { return YOB; }
 
-	bool Citizen::setName(char* _n)
+	bool Citizen::setName(const char* _n)
 	{
+		if (name != nullptr)
+			delete[] name;
+
 		int len = strlen(_n);
-		this->name = new char[len+1];
-		memcpy(this->name,_n,len+1);
+		this->name = new char[len + 1];
+		memcpy(this->name, _n, len + 1);
 		return true;
 	}
 	bool Citizen::setID(int id)
@@ -46,9 +54,9 @@ namespace elc {
 		this->ID = id;
 		return true;
 	}
-	bool Citizen::setDistrict(int  dist)
+	bool Citizen::setDistrict(const District& _dist)
 	{
-		this->districtId = dist;
+		this->dist = _dist;
 		return true;
 	}
 	bool Citizen::setYOB(int year)
@@ -56,17 +64,18 @@ namespace elc {
 		this->YOB = year;
 		return true;
 	}
-	bool Citizen::setCitizen(char* name, int id, int dist, int year)
+	bool Citizen::setCitizen(const char* name, int id, const District& dist, int year)
 	{
-		return setName(name) && setID(id) && 
+		return setName(name) && setID(id) &&
 			setDistrict(dist) && setYOB(year);
 	}
 
 	void Citizen::operator=(const Citizen& o)
 	{
-		setCitizen(o.name, o.ID, o.districtId, o.YOB);
+		setCitizen(o.name, o.ID, o.dist, o.YOB);
+
 	}
 }
 
 
- 
+

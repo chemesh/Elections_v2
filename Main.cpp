@@ -28,19 +28,19 @@ void addDistric(Elections& e)
 	int num;
 	cout << "enter name of district" << endl;
 	cin.ignore();
-	cin.getline(name, MAX_SIZE); 
+	cin.getline(name, MAX_SIZE);
 	cout << "enter number of representitves" << endl; cin >> num;
 	e.addDistrict(name, num);
 	if (!e.isPartiesEmpty())
 	{
-		e.AddNewDistToParties(e.getDistrictsLength()); 
+		e.AddNewDistToParties(e.getDistrictsLength());
 	}
 	cout << "all good, passed input" << endl;
 }
 void addCitizen(Elections& e)
 {
 	char name[MAX_SIZE];
-	int id, yob, dist;
+	int id, yob, distID;
 	cout << "enter name" << endl;
 	cin.ignore(); cin.getline(name, MAX_SIZE);
 
@@ -48,8 +48,8 @@ void addCitizen(Elections& e)
 	cout << "enter year of birth" << endl; cin >> yob;
 	cout << "enter district from avilable: ";
 	e.printDistrictsNameAndID(); cout << endl;
-	cin >> dist;
-	e.addCitizen(name, id, dist, yob);
+	cin >> distID;
+	e.addCitizen(name, id, e.getDistrict(distID), yob);
 	cout << "all good, passed input" << endl;
 }
 
@@ -59,7 +59,7 @@ void addParty(Elections& e)
 	char name[MAX_SIZE];
 	int id;
 	const Citizen* temp;
-	cout << "enter name of the party:" << endl; 
+	cout << "enter name of the party:" << endl;
 	cin.ignore(); cin.getline(name, MAX_SIZE);
 	//extra, check if party name doesnt exist yet.
 	cout << "enter id of president" << endl; cin >> id;
@@ -82,7 +82,7 @@ void addPartyCandidates(Elections& e)
 	cout << "please enter the ID of the Candidate" << endl;
 	cin >> id;
 	temp = e.findCitizen(id);
-	while (temp==nullptr)
+	while (temp == nullptr)
 	{
 		cout << "id did not match to an existing citizen." << endl
 			<< "please enter a valid id: " << endl;
@@ -101,15 +101,15 @@ void addPartyCandidates(Elections& e)
 
 void openVotingMenu(Elections& e, bool& doneVoting)
 {
-	char ctl='0';
+	char ctl = '0';
 	int id, partyID;
-	Citizen *temp;
+	Citizen* temp;
 	e.StartVotingProccess();
 	system("CLS");
 
 	while (ctl != 'q' && ctl != 'Q')
 	{
-		
+
 		cout << "Welcome to voting proccess!" << endl
 			<< "Please enter ID to vote." << endl;
 		cin >> id;
@@ -154,9 +154,9 @@ void results(Elections& e)
 
 	e.setResults();
 	winner = e.getVotes().getWinner();
-	cout << "The new prime minister for elections " << e.getDate()<< endl
+	cout << "The new prime minister for elections " << e.getDate() << endl
 		<< "is: " << e.getParty(winner).getBossID().getName() << endl
-		<< "from party: " << e.getParty(winner).getPartyName()<< endl << endl;
+		<< "from party: " << e.getParty(winner).getPartyName() << endl << endl;
 
 	cout << "The elctions result are as follows: " << endl << endl;
 
@@ -182,7 +182,7 @@ void results(Elections& e)
 
 	}
 	return;
-		
+
 }
 
 
@@ -239,7 +239,7 @@ void mainMenu(Elections& e)
 	int ctrl;
 	bool doneVoting = false;
 	char* date = new char[MAX_SIZE];
-	
+
 	cout << " Welcome to a new Election run!" << endl
 		<< "please enter the date fot this run in 'DD/MM/YYYY' format:" << endl;
 	cin.ignore();
@@ -249,7 +249,7 @@ void mainMenu(Elections& e)
 	delete[] date;
 
 
-	
+
 
 
 	while (true)

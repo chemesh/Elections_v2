@@ -15,8 +15,8 @@ namespace elc {
 
 	public:
 
-		Representatives():PartyID(0), head(nullptr), 
-				tail(nullptr), NumOfReps(0){}
+		Representatives() :PartyID(0), head(nullptr),
+			tail(nullptr), NumOfReps(0) {}
 		~Representatives()
 		{
 			makeEmpty();
@@ -39,7 +39,7 @@ namespace elc {
 				temp = temp->getNext();
 			}
 		}
-		
+
 
 
 

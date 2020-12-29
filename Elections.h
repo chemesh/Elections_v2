@@ -6,7 +6,6 @@
 
 using namespace std;
 
-//test
 
 namespace elc {
 
@@ -33,8 +32,8 @@ namespace elc {
 		void printParties();
 		void printDistricts();
 
-		void addCitizen(char *name, int id, int dist, int yob);
-		void addParty(char *name, const Citizen& boss);
+		void addCitizen(const char* name, int id, const District& dist, int yob);
+		void addParty(char* name, const Citizen& boss);
 		void addDistrict(char* name, int num);
 
 		const Party& getParty(const int& partyID) const { return parties.getParty(partyID); }
@@ -55,11 +54,11 @@ namespace elc {
 		bool isPartiesEmpty() { return parties.isEmpty(); }
 
 		void AddNewDistToParties(int);
-		
+
 		/*********************** voting proccess *******************************/
 
 		bool isEnoughRepsInDist(const int& distID, const int& partyID);
-	
+
 		void StartVotingProccess();
 		bool setVote(Citizen& voter, const int& partyID) { return voting.setVote(voter, partyID); }
 		const Votes& getVotes() { return voting; }

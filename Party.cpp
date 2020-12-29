@@ -3,11 +3,11 @@
 #include <iostream>
 
 namespace elc {
-	
+
 	int Party::numberOfParty = 0;
 
 	int Elector::getDistrict() const { return districtId; }
-		
+
 	bool Elector::setdistrictId(int id)
 	{
 		this->districtId = id;
@@ -77,7 +77,7 @@ namespace elc {
 	bool Party::setParty(char* partyName, const Citizen& boss, int n, Elector* e, int size, int len)
 	{
 		return setPartyName(partyName) && setBoss(boss)
-			&& setPartyNumber(n) && setElectors(e) && 
+			&& setPartyNumber(n) && setElectors(e) &&
 			setElectorsSize(size) && setElectorsLength(len);
 	}
 
@@ -87,7 +87,7 @@ namespace elc {
 	}
 	bool Party::createElectorsList(int numOfDistricts)
 	{
-		
+
 		this->electors = new Elector[numOfDistricts];
 		for (int i = 0; i < numOfDistricts; i++)
 		{
@@ -98,7 +98,7 @@ namespace elc {
 
 	bool Party::addSenator(int numOfDistrict, const Citizen& rep)
 	{
-	
+
 		this->electors[numOfDistrict].addSenator(rep);
 		return true;
 	}
@@ -116,7 +116,7 @@ namespace elc {
 			tail->setNext(temp);
 		}
 		tail = temp;
-		this->numOfSenators++; 
+		this->numOfSenators++;
 		return true;
 	}
 
@@ -130,7 +130,7 @@ namespace elc {
 
 	const Citizen& Senator::getId() const
 	{
-		return candidate; 
+		return candidate;
 	}
 
 	bool Senator::setCandidate(const Citizen& _rep)
@@ -160,7 +160,7 @@ namespace elc {
 	{
 		int i;
 		Senator* temp = head;
-		for (i = 0; i < place;i++)
+		for (i = 0; i < place; i++)
 		{
 			temp = temp->getNext();
 		}
@@ -178,7 +178,7 @@ namespace elc {
 		return this->elec_length;
 	}
 
-	const Senator* Party::getElectorListInDist(const int& distID) 
+	const Senator* Party::getElectorListInDist(const int& distID)
 	{
 		return (&electors[distID].getSenator(0));
 	}
@@ -187,7 +187,7 @@ namespace elc {
 	{
 		if (isElectorsFull())
 			setElectorsSize(elec_size * 2);
-		electors[elec_length].setdistrictId(distID-1); ///
+		electors[elec_length].setdistrictId(distID - 1); ///
 		elec_length++;
 		//electors[elec_length].setNumOfSenators(numOfReps);
 		return true;

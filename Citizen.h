@@ -1,46 +1,48 @@
 #pragma once
 #include <iostream>
+#include "District.h"
 
 namespace elc {
 	class Citizen {
 	private:
-		char *name;
+		char* name;
 		int ID;
 		int YOB;
-		int districtId;
+		District dist;
 		bool hasVoted;
 
 	public:
-		
-		Citizen() : name(nullptr), ID(0), districtId(0), YOB(0), hasVoted(false){}
-		Citizen(char* name, int id, int dist, int year)
-			: ID(id), districtId(dist), YOB(year), hasVoted(false)
+
+		Citizen() : name(nullptr), ID(0), YOB(0), hasVoted(false) {}
+		Citizen(char* name, int id, const District& _dist, int year)
+			: ID(id), dist(_dist), YOB(year), hasVoted(false)
 		{
 			setName(name);
 		}
+		Citizen(const Citizen& other);
 
 		~Citizen();
-				
-		char* getName() const;
+
+		const char* getName() const;
 		int getID() const;
-		int getDistrict() const;
+		const District& getDistrict() const;
 		int getYOB() const;
 		bool getVote() const { return hasVoted; }
 
-		bool setName(char* n);
+		bool setName(const char* n);
 		bool setID(int id);
-		bool setDistrict(int dist);
+		bool setDistrict(const District& _dist);
 		bool setYOB(int year);
-		bool setCitizen(char* name, int id, int dist, int year);
+		bool setCitizen(const char* name, int id, const District& dist, int year);
 		bool setVote(bool val) { hasVoted = val; return true; }
 
 		friend std::ostream& operator<<(std::ostream& out, const Citizen& other)
 		{
 			std::cout
-				<< "name: " << other.name 	<< " , " 
-				<< "ID: " << other.ID		<< " , " 
-				<< "born in: " << other.YOB << " , " 
-				<< "district :" << other.districtId << '\n';
+				<< "name: " << other.name << " , "
+				<< "ID: " << other.ID << " , "
+				<< "born in: " << other.YOB << " , "
+				<< "district :" << other.dist.getDistName() << '\n';
 			return out;
 		}
 
