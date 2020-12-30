@@ -1,21 +1,24 @@
 #pragma once
 #include <iostream>
-#include "District.h"
 
 namespace elc {
+
+	class District;
+
+
 	class Citizen {
 	private:
 		char* name;
 		int ID;
 		int YOB;
-		District dist;
+		const District* dist;
 		bool hasVoted;
 
 	public:
 
-		Citizen() : name(nullptr), ID(0), YOB(0), hasVoted(false) {}
+		Citizen() : name(nullptr), ID(0), YOB(0), hasVoted(false), dist(nullptr) {}
 		Citizen(char* name, int id, const District& _dist, int year)
-			: ID(id), dist(_dist), YOB(year), hasVoted(false)
+			: ID(id), dist(&_dist), YOB(year), hasVoted(false)
 		{
 			setName(name);
 		}
@@ -25,8 +28,8 @@ namespace elc {
 
 		const char* getName() const;
 		int getID() const;
-		const District& getDistrict() const;
 		int getYOB() const;
+		const District& getDistrict()const;
 		bool getVote() const { return hasVoted; }
 
 		bool setName(const char* n);
@@ -42,7 +45,8 @@ namespace elc {
 				<< "name: " << other.name << " , "
 				<< "ID: " << other.ID << " , "
 				<< "born in: " << other.YOB << " , "
-				<< "district :" << other.dist.getDistName() << '\n';
+				//<< "district :" << other.dist->getDistName() << '\n';
+				<< "dist need to fix '\n'";
 			return out;
 		}
 
