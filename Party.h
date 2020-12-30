@@ -54,7 +54,7 @@ namespace elc {
 			Senator* temp = head;
 			while (temp != nullptr)
 			{
-				cout << temp->getCandidate();
+				cout << temp->getCandidate() << endl;
 				temp = temp->getNext();
 			}
 		}
@@ -132,6 +132,7 @@ namespace elc {
 
 		void printElectors()
 		{
+			cout << endl;
 			for (int i = 0; i < elec_length; i++)
 				cout << electors[i];
 		}

@@ -257,7 +257,7 @@ void openingMenu(Elections& e)
 	while (ctrl < 1 || ctrl>10) //handle inputs
 	{
 		std::cout << "wrong input!!" << endl;
-		cin >> ctrl;
+		cin >> ctrl; 
 	}
 	switch (ctrl)
 	{
