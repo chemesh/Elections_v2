@@ -18,6 +18,7 @@ electionRound
 */
 
 #include "Citizen.h"
+#include "district.h"
 #include <iostream>
 
 namespace elc {
@@ -31,12 +32,13 @@ namespace elc {
 
 	Citizen::Citizen(const Citizen& other)
 	{
-		setCitizen(other.name, other.ID, other.dist, other.YOB);
+		setCitizen(other.name, other.ID, *other.dist, other.YOB);
 	}
 
 	const char* Citizen::getName() const { return name; }
 	int Citizen::getID() const { return ID; }
-	const District& Citizen::getDistrict() const { return dist; }
+
+	const District& const Citizen::getDistrict() const { return *dist; }
 	int Citizen::getYOB() const { return YOB; }
 
 	bool Citizen::setName(const char* _n)
@@ -56,7 +58,7 @@ namespace elc {
 	}
 	bool Citizen::setDistrict(const District& _dist)
 	{
-		this->dist = _dist;
+		this->dist = &_dist;
 		return true;
 	}
 	bool Citizen::setYOB(int year)
@@ -72,7 +74,7 @@ namespace elc {
 
 	void Citizen::operator=(const Citizen& o)
 	{
-		setCitizen(o.name, o.ID, o.dist, o.YOB);
+		setCitizen(o.name, o.ID, *o.dist, o.YOB);
 
 	}
 }

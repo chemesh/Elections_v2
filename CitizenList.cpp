@@ -41,7 +41,7 @@ namespace elc
 		//}
 		//list[length] = citizen;
 		//setLength(length + 1);
-		//return true;
+		return true;
 	}
 
 	int CitizensList::getSize() const
