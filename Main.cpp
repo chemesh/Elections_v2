@@ -7,7 +7,6 @@ using namespace elc;
 
 void mainMenu(Elections& e);
 
-
 void inputScreenPage1()
 {
 	std::cout << "-----intput screen-----" << endl;
@@ -35,6 +34,24 @@ void inputScreenPage2()
 		<< " 12 - Load Elections Round" << endl
 		<< "waiting for input..." << endl;
 }
+
+void save(Elections& e)
+{
+	char name[MAX_SIZE];
+	std::cout << "enter name of file" << endl;
+	cin.ignore();
+	cin.getline(name, MAX_SIZE);
+
+	ofstream outfile(name, ios::binary | ios::trunc);
+	if (!outfile) {
+		cout << "error opening file for write" << endl;
+		exit(-1);
+	}
+	e.save(outfile);
+	cout << "data was saved to file: " << name << endl;
+	outfile.close();
+}
+
 void addDistric(Elections& e)
 {
 	char name[MAX_SIZE];
@@ -288,7 +305,7 @@ void mainMenu(Elections& e)
 	{
 		inputScreenPage2();
 		cin >> ctrl;
-		while (ctrl < 1 || ctrl>10) //handle inputs
+		while (ctrl < 1 || ctrl>12) //handle inputs
 		{
 			std::cout << "wrong input!!" << endl;
 			cin >> ctrl;
@@ -311,6 +328,8 @@ void mainMenu(Elections& e)
 		case 8: {if (!doneVoting) openVotingMenu(e, doneVoting); break; }
 		case 9: {if (doneVoting) { results(e); }; break; }
 		case 10: { done = true; break; }
+		case 11: { save(e); break; }
+		case 12: { cout << "loading is complicated, not working yet..." << endl ; break; }
 		}
 	}
 	system("CLS");

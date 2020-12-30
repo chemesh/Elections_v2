@@ -14,12 +14,6 @@ namespace elc {
 		return true;
 	}
 
-	/*bool Elector::setNumOfSenators(int num)
-	{
-		this->numOfSenators = num;
-		return true;
-	}*/
-
 	char* Party::getPartyName() const { return partyName; }
 	const Citizen& Party::getBossID() const { return boss; }
 	int Party::getPartyNumber() const { return partyNumber; }
@@ -204,5 +198,17 @@ namespace elc {
 	void Party::operator=(const Party& o)
 	{
 		setParty(o.partyName, o.boss, o.partyNumber, o.electors, o.elec_size, o.elec_length);
+	}
+
+	void Party::save(ostream& out) const
+	{
+		//how a party is written in a file"
+		//classType=2 ,len&partyName, numberOfparty..
+		int x = 2;
+		int len = strlen(partyName);
+		out.write(rcastcc(&x), sizeof(x)); //x=2 will be later inicator of classtype
+		out.write(rcastcc(&len), sizeof(len));
+		out.write(partyName, len);
+		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
 	}
 }

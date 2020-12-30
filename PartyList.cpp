@@ -83,4 +83,12 @@ namespace elc
 		return false;
 	}
 
+	void PartyList::save(ostream& out) const
+	{
+		
+		out.write(rcastcc(&length), sizeof(length));
+		for (int i = 0; i < length; ++i) {
+			list[i].save(out);
+		}
+	}
 }
