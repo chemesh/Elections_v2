@@ -29,7 +29,7 @@ namespace elc
 		{
 			RepsList = new Representatives[reps_size];
 			RepsList[0].setPartyID(0);
-			cout << "district ctor v1" << endl;
+			//cout << "district ctor v1" << endl;
 		};
 
 		District(char* _name, int _numOfReps) : name(_name), distID(0), totalReps(_numOfReps),
