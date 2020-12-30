@@ -31,6 +31,8 @@ void inputScreenPage2()
 		<< " 8 - VOTE!! (inputs will no longer be avilable)" << endl
 		<< " 9 - show results (not working)." << endl
 		<< " 10 - exit this menu" << endl
+		<< " 11 - Save Elections Round" << endl
+		<< " 12 - Load Elections Round" << endl
 		<< "waiting for input..." << endl;
 }
 void addDistric(Elections& e)

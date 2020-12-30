@@ -43,6 +43,13 @@ namespace elc {
 
 	bool Citizen::setName(const char* _n)
 	{
+		if (_n == nullptr) 
+		//some bug when adding districts without citizens. this should prevent
+		{
+			name = nullptr;
+			return true;
+		}
+
 		if (name != nullptr)
 			delete[] name;
 
