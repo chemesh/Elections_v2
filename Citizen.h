@@ -39,18 +39,8 @@ namespace elc {
 		bool setCitizen(const char* name, int id, const District& dist, int year);
 		bool setVote(bool val) { hasVoted = val; return true; }
 
-		friend std::ostream& operator<<(std::ostream& out, const Citizen& other)
-		{
-			
-			std::cout
-				<< "name: " << other.name << " , "
-				<< "ID: " << other.ID << " , "
-				<< "born in: " << other.YOB << " , "
-				<< "district :" << (other.dist) << ".";
-			//bug related to foward decleration, 
-			//cant ask district to use getter because he dosn"T reconize them
-			return out;
-		}
+		friend std::ostream& operator<<(std::ostream& out, const Citizen& other);
+
 
 		void operator=(const Citizen&);
 	};

@@ -39,6 +39,9 @@ namespace elc
 			setSize(size * 2);
 		}
 		list[length] = _dist;
+		list[length].setDistID(length);
+		setLength(length + 1);
+		return true;
 	}
 
 	//added
