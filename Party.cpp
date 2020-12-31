@@ -204,11 +204,19 @@ namespace elc {
 	{
 		//how a party is written in a file"
 		//classType=2 ,len&partyName, numberOfparty..
-		int x = 2;
+		//int x = 2;
+		//out.write(rcastcc(&x), sizeof(x)); //x=2 will be later inicator of classtype
 		int len = strlen(partyName);
-		out.write(rcastcc(&x), sizeof(x)); //x=2 will be later inicator of classtype
 		out.write(rcastcc(&len), sizeof(len));
-		out.write(partyName, len);
+		out.write(rcastc(partyName), sizeof(len));
 		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
 	}
+
+	//void Party::load(istream& in)
+	//{
+	//	int len;
+	//	in.read(rcastc(len), sizeof(len));
+	//	in.read(rcastc(partyName), sizeof(len));
+	//}
+
 }

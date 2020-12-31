@@ -157,6 +157,7 @@ namespace elc {
 		void operator=(const Party&);
 
 		void save(ostream& out) const;
+		void load(istream& in);
 
 	};
 
