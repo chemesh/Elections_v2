@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <typeinfo>
 #include "CitizenList.h"
 #include "PartyList.h"
 #include "DistrictsList.h"
@@ -48,7 +49,9 @@ namespace elc
 		void setElectorsInDist(PartyList& parties, District& dist);
 		const int getElectorsforPartyInDist(const int& partyID, const int& distID) const;
 		const int getWinnerIDInDist(const int& distID) const;
+		const int getWinnerIDInDist(District* const dist) const;
 		const int getWinner() const;
+		const int getWinner(const DistrictsList& D_list) const;
 
 
 	};

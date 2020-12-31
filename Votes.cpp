@@ -183,6 +183,40 @@ namespace elc
 		return winningPartyID;
 	}
 
+	/************************* added *********************************/
+	const int Votes::getWinnerIDInDist(District* const dist) const
+	{
+		District* temp = dist;
+		int i, max = 0, winningPartyID = -1;
+
+		if (typeid(dist) == typeid(Divided))
+		{
+			for (i = 0; i < numOfParties; i++)
+			{
+				if (max < electors[temp->getDistID()][i])
+				{
+					winningPartyID = i;
+					max = electors[temp->getDistID()][i];
+				}
+			}
+		}
+
+		else
+		{
+			for (i = 0; i < numOfParties; i++)
+			{
+				if (votes_table[dist->getDistID()][i] > max)
+				{
+					winningPartyID = i;
+					max = votes_table[dist->getDistID()][i];
+				}
+			}
+		}
+		return winningPartyID;
+
+	}
+	/************************* added *********************************/
+
 	const int Votes::getWinner() const
 	{
 		int i, j, max = 0, tempSum, winnerID = -1;
@@ -213,6 +247,54 @@ namespace elc
 		return winnerID;
 
 	}
+
+
+	/************************* added *********************************/
+	const int Votes::getWinner(const DistrictsList& D_list) const
+	{
+		int i, j, max = 0, tempSum, winnerID = -1;
+		int* counter = new int[numOfParties];
+		const District* temp;
+
+		for (i = 0; i < numOfParties; i++)
+			counter[i] = 0; //intiating party-electors counter
+
+		for (i = 0; i < numOfDistricts; i++)
+		{
+			temp = &D_list.getDistrict(i);
+			if (typeid(temp) == typeid(Divided)) //if distrcit is Divided
+			{
+				for (j = 0; j < numOfParties; j++) 
+				{ //count for each party the number of electors they got
+					counter[j] += electors[i][j];
+				}
+			}
+			else //the district is not divided
+			{
+				for (i = 0; i < numOfDistricts; i++)
+				{ //add all the electors is the district to the party that won in that district
+					tempSum = 0;
+					for (j = 0; j < numOfParties; j++)
+						tempSum += electors[i][j];
+
+					counter[getWinnerIDInDist(i)] += tempSum;
+				}
+			}
+		}
+		//checks which party has the most electors
+		for (i = 0; i < numOfParties; i++)
+		{
+			if (counter[i] > max)
+			{
+				max = counter[i];
+				winnerID = i;
+			}
+		}
+		delete[] counter;
+		return winnerID;
+
+	}
+	/************************* added *********************************/
 
 
 
