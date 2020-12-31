@@ -3,13 +3,15 @@
 #include "CitizenList.h"
 #include "Representatives.h"
 
+
+
 using namespace std;
 
 namespace elc
 {
 	class District
 	{
-	private:
+	protected:
 		char* name;
 		int distID;
 		int totalReps; //Total number of representatives in the district
@@ -29,7 +31,7 @@ namespace elc
 		{
 			RepsList = new Representatives[reps_size];
 			RepsList[0].setPartyID(0);
-			cout << "district ctor v1" << endl;
+			//cout << "district ctor v1" << endl;
 		};
 
 		District(char* _name, int _numOfReps) : name(_name), distID(0), totalReps(_numOfReps),
@@ -43,7 +45,7 @@ namespace elc
 
 		District(const District&);
 
-		~District() {
+		virtual ~District() {
 			if (RepsList != nullptr)
 				delete[] RepsList;
 			if (name != nullptr)
@@ -102,4 +104,25 @@ namespace elc
 		void operator=(const District&);
 	};
 
+
+
+
+	class Divided : public District
+	{
+	private:
+
+	public:
+		Divided() : District() {}
+		Divided(char* _name, int _numOfReps) : District(_name, _numOfReps) {}
+		Divided(const Divided& o) : District(o){}
+		virtual ~Divided() {};
+
+
+
+		const Divided& operator=(const Divided& o)
+		{
+			District::operator=(o);
+			return *this;
+		}
+	};
 }
