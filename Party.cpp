@@ -202,21 +202,18 @@ namespace elc {
 
 	void Party::save(ostream& out) const
 	{
-		//how a party is written in a file"
-		//classType=2 ,len&partyName, numberOfparty..
-		//int x = 2;
-		//out.write(rcastcc(&x), sizeof(x)); //x=2 will be later inicator of classtype
 		int len = strlen(partyName);
 		out.write(rcastcc(&len), sizeof(len));
-		out.write(rcastc(partyName), sizeof(len));
+		out.write(rcastcc(partyName), sizeof(len));
 		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
 	}
 
-	//void Party::load(istream& in)
-	//{
-	//	int len;
-	//	in.read(rcastc(len), sizeof(len));
-	//	in.read(rcastc(partyName), sizeof(len));
-	//}
-
+	void Party::load(istream& in)
+	{
+		int length;
+		in.read(rcastc(&length), sizeof(length));
+		this->partyName = new char[length + 1];
+		in.read(rcastc(partyName), sizeof(length));
+		in.read(rcastc(&numberOfParty), sizeof(numberOfParty));
+	}
 }

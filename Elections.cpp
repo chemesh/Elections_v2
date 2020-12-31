@@ -95,6 +95,9 @@ namespace elc {
 
 		void Elections::save(ostream& out) const
 		{
+			int len = strlen(date);
+			out.write(rcastcc(&len), sizeof(len));
+			out.write(rcastc(date), sizeof(len));
 			parties.save(out);
 		}
 	}
