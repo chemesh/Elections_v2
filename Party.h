@@ -3,6 +3,9 @@
 #include <iostream>
 #include "Citizen.h"
 
+#define rcastcc reinterpret_cast<const char*>
+#define rcastc reinterpret_cast<char*>
+
 //party - candidate, list of electors,
 //-add citizen as representitive(CIN of id, num of party, name of district)
 using namespace std;
@@ -152,6 +155,10 @@ namespace elc {
 		}
 
 		void operator=(const Party&);
+
+		void save(ostream& out) const;
+		void load(istream& in);
+
 	};
 
 };

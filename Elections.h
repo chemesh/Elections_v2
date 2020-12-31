@@ -1,10 +1,12 @@
 #pragma once
+#include <fstream>
 #include "CitizenList.h"
 #include "PartyList.h"
 #include "DistrictsList.h"
 #include "Votes.h"
 
 using namespace std;
+
 
 
 namespace elc {
@@ -21,6 +23,7 @@ namespace elc {
 
 		Elections() : date(nullptr) {};
 		~Elections() { if (date != nullptr) delete[] date; };
+
 
 		bool setDate(char* date);
 		int getPartiesLength() const;
@@ -64,6 +67,10 @@ namespace elc {
 		const Votes& getVotes() { return voting; }
 
 		void setResults();
+
+		/**************************serialiazion***************************/
+		void save(ostream& out) const;
+
 	};
 
 

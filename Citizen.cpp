@@ -1,21 +1,3 @@
-/*
-
-citizen - name, id, DOB, living district
-- add a citizien.
-
-party - candidate, list of representives,
-- add citizen as representitive (CIN of id, num of party, name of district)
-
-district - name, id, list of aproved voters (list of citizen id),
-		   percent of voters, won(data stucr that containes lists of representiteves),
-
-electionRound
-- date (day, month, year)
-- list of voters (each item is a citizen)
-- list of parties (each item is a party)
-- list of districts (each item is a district)
--
-*/
 
 #include "Citizen.h"
 #include "district.h"
@@ -83,6 +65,16 @@ namespace elc {
 	{
 		setCitizen(o.name, o.ID, *o.dist, o.YOB);
 
+	}
+
+	 std::ostream& operator<<(std::ostream& out, const Citizen& other)
+	{
+		std::cout
+			<< "name: " << other.name << " , "
+			<< "ID: " << other.ID << " , "
+			<< "born in: " << other.YOB << " , "
+			<< "district: " << other.dist->getDistName() << ".";
+		return out;
 	}
 }
 

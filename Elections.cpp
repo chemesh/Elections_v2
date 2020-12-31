@@ -91,6 +91,10 @@ namespace elc {
 		{
 			voting.setElectorsInDist(parties, getDistrict(i, flag));
 		}
-	}
-
 }
+
+		void Elections::save(ostream& out) const
+		{
+			parties.save(out);
+		}
+	}
