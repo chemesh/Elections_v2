@@ -39,6 +39,7 @@ void addDistric(Elections& e)
 {
 	char name[MAX_SIZE];
 	int num;
+	//need implementation of choosing between Divided or Complete district
 	std::cout << "enter name of district" << endl;
 	cin.ignore();
 	cin.getline(name, MAX_SIZE);
@@ -276,7 +277,7 @@ void mainMenu(Elections& e)
 	bool done = false; //flag for while loop
 	char* date = new char[MAX_SIZE];
 
-	std::cout << " Welcome to Roy & Alon Election prgram!" << endl
+	std::cout << " Welcome to Roy & Alon Election program!" << endl
 		<< "please enter the date fot this run in 'DD/MM/YYYY' format:" << endl;
 	cin.ignore();
 	cin.getline(date, MAX_SIZE);

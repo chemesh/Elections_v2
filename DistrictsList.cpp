@@ -32,6 +32,15 @@ namespace elc
 		return true;
 	}
 
+	bool DistrictsList::setDistrict(const District& _dist)
+	{
+		if (isFull())
+		{
+			setSize(size * 2);
+		}
+		list[length] = _dist;
+	}
+
 	//added
 	bool DistrictsList::setCitizenInDist(const Citizen& resident, const District& dist)
 	{

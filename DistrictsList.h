@@ -20,6 +20,9 @@ namespace  elc {
 		bool setSize(const int&);
 		bool setLength(const int&);
 		bool setDistrict(char* _DistrictName, int numOfReps);
+		//new
+		bool setDistrict(const District& _dist);
+
 		bool setCitizenInDist(const Citizen&, const District& dist);
 
 		int getSize() const;
