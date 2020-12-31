@@ -41,12 +41,14 @@ namespace elc {
 
 		friend std::ostream& operator<<(std::ostream& out, const Citizen& other)
 		{
+			
 			std::cout
 				<< "name: " << other.name << " , "
 				<< "ID: " << other.ID << " , "
 				<< "born in: " << other.YOB << " , "
-				//<< "district :" << other.dist->getDistName() << '\n';
-				<< "dist need to fix '\n'";
+				<< "district :" << (other.dist) << ".";
+			//bug related to foward decleration, 
+			//cant ask district to use getter because he dosn"T reconize them
 			return out;
 		}
 
