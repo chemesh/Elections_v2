@@ -38,11 +38,18 @@ namespace elc {
 	const char* Citizen::getName() const { return name; }
 	int Citizen::getID() const { return ID; }
 
-	const District& const Citizen::getDistrict() const { return *dist; }
+	const District& Citizen::getDistrict() const { return *dist; }
 	int Citizen::getYOB() const { return YOB; }
 
 	bool Citizen::setName(const char* _n)
 	{
+		if (_n == nullptr) 
+		//some bug when adding districts without citizens. this should prevent
+		{
+			name = nullptr;
+			return true;
+		}
+
 		if (name != nullptr)
 			delete[] name;
 
