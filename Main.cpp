@@ -341,4 +341,5 @@ int main()
 {
 	Elections e;
 	openingMenu(e);
+	cout << "chao";
 }
