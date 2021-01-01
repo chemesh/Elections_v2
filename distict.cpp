@@ -119,9 +119,31 @@ namespace elc
 		return true;
 	}
 
+	bool District::initRepsList(const int& size, Party* list)
+	{
+		Representatives* temp = new Representatives[size+1];
+
+		for (int i = 0; i < size; i++)
+		{
+			temp[i].setPartyID(list[i].getPartyNumber());
+		}
+		reps_size = size+1;
+		reps_lentgh = size;
+		delete[] RepsList;
+		RepsList = temp;
+		return true;
+	}
+
+	bool District::setNumOfPartyReps(const int& num, const Party& _party)
+	{
+		RepsList[_party.getPartyNumber()].setNumOfReps(num);
+		return true;
+	}
+
 	bool District::setSenatorInDistReps(const Senator* newRep, int partyID)
 	{
-		RepsList[distID].addSenator(*newRep);
+		//RepsList[distID].addSenator(*newRep);
+		RepsList[partyID].addSenator(*newRep);
 		return true;
 	}
 	bool District::setCitizenList(const CitizensList& list)

@@ -15,7 +15,7 @@ namespace  elc {
 
 	public:
 		PartyList(int _size = 1) : length(0), size(_size) { list = new Party[_size]; }
-		~PartyList() { delete[] list; }
+		~PartyList() { cout << "partylist dtor" << endl; delete[] list; }
 
 		bool setSize(const int&);
 		bool setLength(const int&);
@@ -27,6 +27,7 @@ namespace  elc {
 		const char* const getPartyName(const int& partyID) const;
 		Party& getParty(const int& partyID)const;
 		const int& getPartyElectorsLength(const int& partyID) const;
+		Party* const getPartyList()const { return list; }
 
 		bool AddNewDistToParties(int);
 

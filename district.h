@@ -46,6 +46,7 @@ namespace elc
 		District(const District&);
 
 		virtual ~District() {
+			cout << "dist dtor" << endl;
 			if (RepsList != nullptr)
 				delete[] RepsList;
 			if (name != nullptr)
@@ -62,6 +63,8 @@ namespace elc
 		bool setVotersPersentage(const float&);
 		bool setCitizenList(const CitizensList& citizens);
 		bool setRepsList(Representatives* reps);
+		bool initRepsList(const int& size, Party* list);
+		bool setNumOfPartyReps(const int& num, const Party& _party);
 		bool setSenatorInDistReps(const Senator*, int partyID);
 
 		bool setDistrict(const char*, int);
@@ -77,7 +80,7 @@ namespace elc
 		const int& getDistID() const;
 		const CitizensList& GetDistCitizens() const;
 		const float& getVoters() const;
-		const Representatives getRepsFromParty(const int partyID) const { return RepsList[partyID]; }
+		const Representatives& getRepsFromParty(const int partyID) const { return RepsList[partyID]; }
 		//const Elector& getCongressMen() const;
 		int getDistReps() const;
 

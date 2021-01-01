@@ -194,8 +194,8 @@ void results(Elections& e)
 	for (int i = 0; i < numOfDistricts; i++)
 	{
 		distName = e.getDistrict(i).getDistName();
-		partyName = e.getParty(winnerIdDist).getPartyName();
 		winnerIdDist = e.getVotes().getWinnerIDInDist(i);
+		partyName = e.getParty(winnerIdDist).getPartyName();
 		numOfReps = e.getDistrict(i).getDistReps();
 		std::cout << "For district " << distName << ", " << endl
 			<< "number of representative in the district: " << numOfReps << endl
@@ -204,10 +204,19 @@ void results(Elections& e)
 		{
 			numOfReps = e.getVotes().getElectorsforPartyInDist(j, i);
 			partyName = e.getParty(j).getPartyName();
-			std::cout << "For Party " << partyName << ": " << endl
-				<< "with " << e.getVotes().getPartyVotesInDist(j, i) << " votes, and " << e.getVotes().getPartyVotesPrecentageInDist(j, i) << " votes precentage, " << endl
-				<< "the representatives from the party are: " << endl;
-			e.getDistrict(i).getRepsFromParty(j).printsenatorsList(numOfReps);
+			std::cout << "Party " << partyName << ": " << endl
+				<< "with " << e.getVotes().getPartyVotesInDist(j, i) << " votes, and " << e.getVotes().getPartyVotesPrecentageInDist(j, i) << "% votes precentage, " << endl;
+			if (numOfReps == 0)
+			{
+				cout << "there are 0 representatives from the party for this district" << endl;
+			}
+			else
+			{
+				cout << "the representatives from the party are: " << endl;
+				e.getDistrict(i).getRepsFromParty(j).printsenatorsList(numOfReps); 
+				cout << endl;
+				
+			}
 
 		}
 

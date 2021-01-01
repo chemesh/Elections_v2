@@ -15,7 +15,7 @@ namespace  elc {
 
 	public:
 		DistrictsList(int _size = 1) : length(0), size(_size) { list = new District[_size]; }
-		~DistrictsList() { delete[] list; }
+		~DistrictsList() { cout << "distlist dtor" << endl; delete[] list; }
 
 		bool setSize(const int&);
 		bool setLength(const int&);

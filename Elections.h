@@ -22,7 +22,7 @@ namespace elc {
 	public:
 
 		Elections() : date(nullptr) {};
-		~Elections() { if (date != nullptr) delete[] date; };
+		~Elections() { cout << "elec dtor" << endl; if (date != nullptr) delete[] date; };
 
 
 		bool setDate(char* date);
@@ -40,7 +40,7 @@ namespace elc {
 		void addDistrict(char* name, int num);
 
 		const Party& getParty(const int& partyID) const { return parties.getParty(partyID); }
-		const District& getDistrict(const int& distID) const { return districts.getDistrict(distID); }
+		const District& getDistrict(const int& distID) { return districts.getDistrict(distID); }
 		District& getDistrict(int distID, bool flag) { return districts.getDistrict(distID, flag); }
 		void printDistrictsNameAndID() //new function
 		{

@@ -99,6 +99,7 @@ namespace elc {
 
 		~Party()
 		{
+			cout << "party dtot" << endl;
 			if (electors != nullptr)
 				delete[] electors;
 			if (partyName != nullptr)
