@@ -134,27 +134,50 @@ namespace elc
 
 	void Votes::setElectorsInDist(PartyList& parties, District& dist)
 	{
-		int i, j, partyElectors, totalVotes = getTotalVotesInDistrict(dist.getDistID());
-		float partyPrecent, approxElectors, avg = (float)dist.getDistReps() / numOfParties;
+		int i, j, partyElectors, chosen_counter = 0, remaining;
+		int totalVotes = getTotalVotesInDistrict(dist.getDistID());
+		float partyPrecent, approxElectors, avg; //= (float)dist.getDistReps() / numOfParties;
 		const Senator* temp;
 
-		for (i = 0; i < numOfParties; i++)
+		for (i = 0; i < numOfParties; i++) //calculating rough estimate of electors for each party
 		{
 			partyPrecent = getPartyVotesPrecentageInDist(i, dist.getDistID());
 			approxElectors = (partyPrecent / 100) * dist.getDistReps();
 			partyElectors = (int)approxElectors;
-			if (approxElectors - partyElectors >= avg)
-				partyElectors += 1;
+			chosen_counter += partyElectors;
 
 			electors[dist.getDistID()][i] = partyElectors;
 		}
 
+		remaining = dist.getDistReps() - chosen_counter;
+		if (remaining > 0)
+		{
+			avg = static_cast<float>(remaining) / numOfParties;
+			for (i = 0; i < numOfParties; i++)
+			{
+				partyPrecent = getPartyVotesPrecentageInDist(i, dist.getDistID());
+				approxElectors = (partyPrecent / 100) * dist.getDistReps();
+				partyElectors = static_cast<int>(approxElectors);
+				if (approxElectors - partyElectors >= avg)
+				{
+					partyElectors += 1;
+					electors[dist.getDistID()][i]++;
+					remaining--;
+				}
+			}
+
+			for (i = 0; remaining > 0; i++)
+			{
+				electors[dist.getDistID()][i]++;
+			}
+		}
+
 		for (i = 0; i < numOfParties; i++)
 		{
+			dist.setNumOfPartyReps(electors[dist.getDistID()][i], parties.getParty(i));
 			temp = parties.getParty(i).getElectorListInDist(dist.getDistID());
 			for (j = 0; j < electors[dist.getDistID()][i]; j++)
 			{
-
 				dist.setSenatorInDistReps(temp, parties.getParty(i).getPartyNumber());
 				temp = temp->getNext();
 			}

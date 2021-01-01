@@ -6,11 +6,13 @@ namespace elc {
 
 	bool Elections::setDate(char* _date)
 	{
+		int size = strlen(_date);
 		if (date != nullptr)
 			delete[] date;
 
-		date = new char[strlen(_date)];
-		memcpy(date, _date, sizeof(char) * strlen(_date));
+		date = new char[size + 1];
+		memcpy(date, _date, sizeof(char) * size);
+		date[size] = '\0';
 		return true;
 	}
 
@@ -89,6 +91,7 @@ namespace elc {
 		bool flag = true;
 		for (int i = 0; i < getDistrictsLength(); i++)
 		{
+			districts.getDistrict(i, flag).initRepsList(parties.getLength(), parties.getPartyList());
 			voting.setElectorsInDist(parties, getDistrict(i, flag));
 		}
 }

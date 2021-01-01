@@ -19,12 +19,14 @@ namespace elc {
 			tail(nullptr), NumOfReps(0) {}
 		~Representatives()
 		{
+			cout << "reps dtor" << endl;
 			makeEmpty();
 		}
 
 		void makeEmpty(void);
 		int getPartyID() const;
 		bool setPartyID(int dist);
+		bool setNumOfReps(const int& num) { NumOfReps = num; return true; }
 		const Senator& getSenator(int id);
 
 		bool addSenator(const Citizen& rep);
