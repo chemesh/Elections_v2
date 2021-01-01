@@ -50,5 +50,6 @@ namespace  elc {
 			return out;
 		}
 		void save(ostream& out) const;
+		void load(istream& in);
 	};
 }

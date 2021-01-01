@@ -91,4 +91,13 @@ namespace elc
 			list[i].save(out);
 		}
 	}
+
+	void PartyList::load(istream& in)
+	{
+		in.read(rcastc(&length), sizeof(length));
+		for (int i = 0; i < length; i++)
+		{
+			list[i].load(in);
+		}
+	}
 }
