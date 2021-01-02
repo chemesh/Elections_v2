@@ -83,7 +83,7 @@ namespace elc
 		return false;
 	}
 
-	void PartyList::save(ostream& out) const
+	void PartyList::save(ofstream& out) const
 	{
 		
 		out.write(rcastcc(&length), sizeof(length));
@@ -92,9 +92,10 @@ namespace elc
 		}
 	}
 
-	void PartyList::load(istream& in)
+	void PartyList::load(ifstream& in)
 	{
 		in.read(rcastc(&length), sizeof(length));
+		list = new Party[length];
 		for (int i = 0; i < length; i++)
 		{
 			list[i].load(in);

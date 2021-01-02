@@ -1,7 +1,8 @@
 
 #include "Citizen.h"
 #include "district.h"
-#include <iostream>
+
+
 
 namespace elc {
 
@@ -76,7 +77,36 @@ namespace elc {
 			<< "district: " << other.dist->getDistName() << ".";
 		return out;
 	}
-}
+	 
+	 /**************************serialiazion***************************/
+	// void Citizen::save(ofstream& out) const
+	// {
+	//	 int distID = dist->getDistID();
+	//	 int len = strlen(name);
+	//	 out.write(rcastcc(&len), sizeof(len));									 // name length
+	//	 out.write(name, len);												// len+1 for the '\0'
+	//	 out.write(rcastcc(&ID), sizeof(ID));									 // int ID
+	//	 out.write(rcastcc(&YOB), sizeof(YOB));									 // int - yob
+	//	 out.write(rcastcc(&hasVoted), sizeof(hasVoted));					    // bool - has voted
+	//	// out.write(rcastcc(&distID), sizeof(distID));
+	//	 dist->save(out);
+	// }
+	// void Citizen::load(ifstream& in)
+	// {
+	//	 int len, ID;
+	//	 in.read(rcastc(&len), sizeof(len));
+	//	 name = new char[len + 1];
+	//	 in.read(name, len);
+	//	 name[len] = '\0';
+	//	 in.read(rcastc(&ID), sizeof(ID));
+	//	 in.read(rcastc(&YOB), sizeof(YOB));
+	//	 in.read(rcastc(&hasVoted), sizeof(hasVoted));
+	//	 //in.read(rcastc(&ID), sizeof(ID));
+	//	 dist = new District;
+	//	// dist->load(in);
+	//	 //now we need to connect the distirct of citizen?
+	// }
+}	//
 
 
 

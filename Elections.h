@@ -24,7 +24,7 @@ namespace elc {
 
 		Elections() : date(nullptr), roundType(0) {};
 		~Elections() { cout << "elec dtor" << endl; if (date != nullptr) delete[] date; };
-		Elections(istream& in)
+		Elections(ifstream& in)
 		{
 			load(in);
 		}
@@ -84,8 +84,8 @@ namespace elc {
 		void setResults();
 
 		/**************************serialiazion***************************/
-		void save(ostream& out) const;
-		void load(istream& in) ;
+		void save(ofstream& out) const;
+		void load(ifstream& in) ;
 
 	};
 

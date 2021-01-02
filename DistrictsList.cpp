@@ -86,16 +86,16 @@ namespace elc
 		}
 	}
 
-	bool DistrictsList::isDivided(int i)
-	{
-		if (typeid(*list[i]) == typeid(Divided))
-			return true;
-		else
-			return false;
-	}
+//	bool DistrictsList::isDivided(int i)
+//	{
+//		if (typeid(*list[i]) == typeid(Divided))
+//			return true;
+//		else
+//			return false;
+//	}
 
 
-	void DistrictsList::save(ostream& out) const
+	void DistrictsList::save(ofstream& out) const
 	{
 		bool type = false;
 		out.write(rcastcc(&length), sizeof(length));
@@ -107,7 +107,7 @@ namespace elc
 		}
 	}
 
-	void DistrictsList::load(istream& in)
+	void DistrictsList::load(ifstream& in)
 	{
 		bool type = false;
 		in.read(rcastc(&length), sizeof(length));

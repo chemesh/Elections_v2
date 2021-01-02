@@ -13,6 +13,7 @@ void inputScreenPage1();
 void inputScreenPage2(Elections& e);
 
 void save(Elections& e);
+void load(Elections* e);
 
 void addDistric(Elections& e);
 void addCitizen(Elections& e);
@@ -176,7 +177,9 @@ void load(Elections* e)
 		}
 		//delete e somehow>
 		e = new Elections(infile);
+
 		e->printDistricts();
+		e->printParties();
 		mainMenu(*e);
 }
 

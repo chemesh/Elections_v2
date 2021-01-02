@@ -211,11 +211,11 @@ namespace elc
 			return false;
 	}
 
-	void District::save(ostream& out) const 
+	void District::save(ofstream& out) const 
 	{
 		int len = strlen(name);
 		out.write(rcastcc(&len), sizeof(len));									 // name length
-		out.write(name, len +1 );												// len+1 for the '\0'
+		out.write(name, len);												// len+1 for the '\0'
 		out.write(rcastcc(&distID), sizeof(distID));							 // int distID
 		out.write(rcastcc(&totalReps), sizeof(totalReps));						 // int - total reps
 		out.write(rcastcc(&voters_precentage), sizeof(voters_precentage));       // float - votes percentag
@@ -227,12 +227,13 @@ namespace elc
 		//	RepsList[i].save(out);
 	}
 
-	void District::load(istream& in)
+	void District::load(ifstream& in)
 	{
 		int len;
 		in.read(rcastc(&len), sizeof(len));
 		name = new char[len + 1];
-		in.read(name, len + 1);
+		in.read(name, len);
+		name[len] = '\0';
 		in.read(rcastc(&distID), sizeof(distID));
 		in.read(rcastc(&totalReps), sizeof(totalReps));
 		in.read(rcastc(&voters_precentage), sizeof(voters_precentage));

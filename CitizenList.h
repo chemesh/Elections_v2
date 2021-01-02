@@ -39,15 +39,6 @@ namespace elc {
 
 		void CitizenSort() { mergeSort(list, 0, length); }
 
-
-		//void printList()
-		//{
-		//	for (int i = 0; i < length; i++)
-		//	{
-		//		cout << list[i] << '\n';
-		//	}
-		//}
-
 		void operator=(const CitizensList&);
 
 		friend std::ostream& operator<<(std::ostream& out, const CitizensList& other)
@@ -59,5 +50,8 @@ namespace elc {
 			return out;
 		}
 
+		/**************************serialiazion***************************/
+		void save(ofstream& out) const;
+		void load(ifstream& in);
 	};
 }

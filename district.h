@@ -101,8 +101,8 @@ namespace elc
 		void operator=(const District&);
 		bool isDivided();
 
-		void save(ostream& out) const;
-		void load(istream& in);
+		void save(ofstream& out) const;
+		void load(ifstream& in);
 	};
 
 

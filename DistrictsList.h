@@ -53,8 +53,8 @@ namespace  elc {
 
 		bool isDivided(int i);
 
-		void save(ostream& out) const;
-		void load(istream& in);
+		void save(ofstream& out) const;
+		void load(ifstream& in);
 
 	};
 

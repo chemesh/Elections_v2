@@ -2,6 +2,7 @@
 #include "Party.h"
 #include <iostream>
 
+
 namespace elc {
 
 	int Party::numberOfParty = 0;
@@ -148,8 +149,6 @@ namespace elc {
 		}
 	}
 
-	//added
-	//added
 	const Senator& Elector::getSenator(int place)
 	{
 		int i;
@@ -161,7 +160,24 @@ namespace elc {
 		return *temp;
 	}
 
-	///added
+	void Elector::printElector()
+	{
+		Senator* temp = head;
+		while (temp != nullptr)
+		{
+			cout << temp->getCandidate() << endl;
+			temp = temp->getNext();
+		}
+	}
+
+	std::ostream& operator<<(std::ostream& out, Elector& other)
+	{
+		cout
+			<< "Electors from district ID: " << other.districtId << ":" << endl;
+		other.printElector();
+		return out;
+	}
+
 	int Party::getElectorsSize() const
 	{
 		return this->elec_size;
@@ -200,24 +216,64 @@ namespace elc {
 		setParty(o.partyName, o.boss, o.partyNumber, o.electors, o.elec_size, o.elec_length);
 	}
 
-	void Party::save(ostream& out) const
+//================================seralization============================================
+	void Party::save(ofstream& out) const
 	{
 		int len = strlen(partyName);
-		len++; //add ++ for '\0'
 		out.write(rcastcc(&len), sizeof(len));	
 		out.write(partyName, len);
-		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
-		
 
+		out.write(rcastcc(&partyNumber), sizeof(partyNumber));
+		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
+		out.write(rcastcc(boss.getID()), sizeof(boss.getID()));
+		//!!need to add boss- save only ID
+
+		out.write(rcastcc(&elec_length), sizeof(elec_length));
+		for (int i = 0; i < elec_length; i++)
+		{
+			electors[i].save(out);
+		}
 
 	}
 
-	void Party::load(istream& in)
+	void Party::load(ifstream& in)
 	{
-		int length;
-		in.read(rcastc(&length), sizeof(length));
-		this->partyName = new char[length + 1];
-		in.read(rcastc(partyName), sizeof(length));
+		int len, id;
+		in.read(rcastc(&len), sizeof(len));
+		partyName = new char[len + 1];
+		in.read(partyName, len);
+		partyName[len] = '\0';
+		in.read(rcastc(&partyNumber), sizeof(partyNumber));
 		in.read(rcastc(&numberOfParty), sizeof(numberOfParty));
+		in.read(rcastc(&id), sizeof(id)); //reads boss id;
+		//read boss, need to ad him first!!
+
+		in.read(rcastc(&elec_length), sizeof(elec_length));
+
+		electors = new Elector[elec_length];
+		 for (int i = 0; i < elec_length; i++)
+			electors[i].load(in);
+	}
+
+	void Elector::save(ofstream& out) const
+	{
+		out.write(rcastcc(&numOfSenators), sizeof(numOfSenators));
+		Senator* temp = head;
+		Citizen* x;
+		while (head)
+		{
+		//	temp->candidate.save(out);
+			temp = temp->getNext();
+		}
+	}
+	void Elector::load(ifstream& in)
+	{
+		Senator temp;
+		in.read(rcastc(&numOfSenators), sizeof(numOfSenators));
+		for (int i = 0; i < numOfSenators; i++)
+		{
+			in.read(rcastc(&temp.candidate), sizeof(temp.candidate));
+		//	addSenator()
+		}
 	}
 }

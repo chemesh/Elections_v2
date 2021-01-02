@@ -3,19 +3,18 @@
 #include <iostream>
 #include "Citizen.h"
 
-#define rcastcc reinterpret_cast<const char*>
-#define rcastc reinterpret_cast<char*>
 
 //party - candidate, list of electors,
-//-add citizen as representitive(CIN of id, num of party, name of district)
+//-add citizen as re presentitive(CIN of id, num of party, name of district)
 using namespace std;
 namespace elc {
 
 	class Senator {
 	private:
-		Citizen candidate;
 		Senator* next;
 	public:
+		Citizen candidate;
+		Senator(){}
 		Senator(const Citizen& _rep) :candidate(_rep), next(nullptr) {};
 		~Senator() {};
 
@@ -52,23 +51,13 @@ namespace elc {
 		bool addSenator(const Citizen& rep); //addTotail
 		const Senator& getSenator(int place);
 
-		void printElector()
-		{
-			Senator* temp = head;
-			while (temp != nullptr)
-			{
-				cout << temp->getCandidate() << endl;
-				temp = temp->getNext();
-			}
-		}
+		void printElector();
 
-		friend std::ostream& operator<<(std::ostream& out, Elector& other)
-		{
-			cout
-				<< "Electors from district ID: " << other.districtId << ":" << endl;
-			other.printElector();
-			return out;
-		}
+		friend std::ostream& operator<<(std::ostream& out, Elector& other);
+
+		void save(ofstream& out) const;
+		void load(ifstream& in);
+
 	};
 
 	class Party {
@@ -157,8 +146,8 @@ namespace elc {
 
 		void operator=(const Party&);
 
-		void save(ostream& out) const;
-		void load(istream& in);
+		void save(ofstream& out) const;
+		void load(ifstream& in);
 
 	};
 
