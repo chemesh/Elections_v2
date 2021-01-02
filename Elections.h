@@ -14,6 +14,7 @@ namespace elc {
 	class Elections
 	{
 	private:
+		int roundType; // 0 = normal, 1 = simple
 		char* date;
 		PartyList parties;
 		CitizensList citizens;
@@ -21,43 +22,48 @@ namespace elc {
 		Votes voting;
 	public:
 
-		Elections() : date(nullptr) {};
+		Elections() : date(nullptr), roundType(0) {};
 		~Elections() { cout << "elec dtor" << endl; if (date != nullptr) delete[] date; };
 
 
-		bool setDate(char* date);
-		int getPartiesLength() const;
-		int getCitizensLength() const;
-		int getDistrictsLength() const;
-		const char* getDate() { return date; }
 
-		void printCitizens();
-		void printParties();
-		void printDistricts();
+		int getPartiesLength() const { return parties.getLength(); }
+		int getCitizensLength() const { return citizens.getLength(); }
+		int getDistrictsLength() const { return districts.getLength(); }
 
-		void addCitizen(const char* name, int id, const District& dist, int yob);
-		void addParty(char* name, const Citizen& boss);
-		void addDistrict(char* name, int num, bool div);
+
+		const char* getDate() const { return date; }
+		const int& getRoundType() const { return roundType;  }
 
 		const Party& getParty(const int& partyID) const { return parties.getParty(partyID); }
 		const District& getDistrict(const int& distID) { return districts.getDistrict(distID); }
 		District& getDistrict(int distID, bool flag) { return districts.getDistrict(distID, flag); }
-		const DistrictsList& getDistList() const { return districts; }
-		void printDistrictsNameAndID() //new function
-		{
-			districts.PrintNameAndId();//need to pass to .cpp
-		}
-		void printPartiesNameAndID();
 
-		/*********************************************/
+		const DistrictsList& getDistList() const { return districts; }
+    
+		bool setDate(char* date);
+		bool setRoundType(int _type);
+
+
+		void addCitizen(const char* name, int id, const District& dist, int yob);
+		void addParty(char* name, const Citizen& boss);
+		void addDistrict(char* name, int num);
 		void addPartyCandidate(int id, int partyID, int distID);
 		void addPartyCandidate(const Citizen& rep, int partyID, int distID);
 
-		Citizen* findCitizen(int id);
-
-		bool isPartiesEmpty() { return parties.isEmpty(); }
+		//versions for simple round
+		//void addCitizen(const char* name, int id, int yob);
 
 		void AddNewDistToParties(int);
+		Citizen* findCitizen(int id);
+		bool isPartiesEmpty() { return parties.isEmpty(); }
+		
+		void printCitizens();
+		void printParties();
+		void printDistricts();
+		void printDistrictsNameAndID(); 
+		void printPartiesNameAndID();
+
 
 		/*********************** voting proccess *******************************/
 

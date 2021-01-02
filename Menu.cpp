@@ -1,26 +1,44 @@
-﻿#include <iostream>
+#include <iostream>
 #include "Elections.h"
-
 
 using namespace std;
 using namespace elc;
 
-void openingMenu(Elections& e);
-=======
+#define MAX_SIZE 50
+
+
 void mainMenu(Elections& e);
+
+void inputScreenPage1();
+void inputScreenPage2(Elections& e);
+
+void save(Elections& e);
+
+void addDistric(Elections& e);
+void addCitizen(Elections& e);
+void addParty(Elections& e);
+void addPartyCandidates(Elections& e);
+
+void results(Elections& e);
+void openVotingMenu(Elections& e, bool& doneVoting);
+bool handleErrors(int ctrl, Elections& e);
 
 void inputScreenPage1()
 {
-	std::cout << "-----intput screen-----" << endl;
+	std::cout << "--------intput screen--------" << endl;
 	std::cout
 		<< " 1 - Create new election round. " << endl
 		<< " 2 - Load Existing election round from file." << endl
 		<< " 3 - Exit program." << endl
 		<< "waiting for input..." << endl;
 }
-void inputScreenPage2()
+void inputScreenPage2(Elections& e)
 {
-	std::cout << "-----intput screen-----" << endl;
+	
+	std::cout << endl << "--------intput screen--------" << endl;
+	(e.getRoundType()) ? cout << "   Simple Election Round" << endl : cout << "   Normal Election Round" << endl;
+	std::cout << "   Election Date:" << e.getDate() << endl;
+	std::cout << "--------intput screen--------" << endl << endl;
 	std::cout << "what would you like to add? " << endl
 		<< " 1 - Add District. " << endl
 		<< " 2 - Add Citizen." << endl
@@ -36,6 +54,84 @@ void inputScreenPage2()
 		<< " 12 - Load Elections Round" << endl
 		<< "waiting for input..." << endl;
 }
+
+void openingMenu(Elections& e)
+{
+	int ctrl;
+	inputScreenPage1();
+	cin >> ctrl;
+
+	while (ctrl < 1 || ctrl>10) //handle inputs
+	{
+		std::cout << "wrong input!!" << endl;
+		cin >> ctrl;
+	}
+	switch (ctrl)
+	{
+	case 1: { system("CLS");  mainMenu(e); break; }
+	case 2: { std::cout << "loading file.." << endl; break; }
+	case 3: { std::cout << "Exit menu was chosen, byebye!" << endl; break; }
+	}
+}
+
+
+void mainMenu(Elections& e)
+{
+	int ctrl;
+	bool doneVoting = false;
+	bool done = false; //flag for while loop
+	char* date = new char[MAX_SIZE];
+	int type = 0;
+
+	std::cout << " Welcome to Roy & Alon Election program!" << endl
+		<< "please enter the date fot this run in 'DD/MM/YYYY' format: " << endl;
+	cin.ignore();
+	cin.getline(date, MAX_SIZE);
+	e.setDate(date);
+	delete[] date;
+
+	std::cout << "choose Election round type (0 - normal) , (1 - simple) : "; cin >> type;
+	e.setRoundType(type);
+	system("CLS");
+	while (!done)
+	{
+		inputScreenPage2(e);
+		cin >> ctrl;
+		while (ctrl < 1 || ctrl>12) //handle inputs
+		{
+			std::cout << "wrong input!!" << endl;
+			cin >> ctrl;
+		}
+		while (handleErrors(ctrl, e)) //handle logical errors
+		{
+			cin >> ctrl;
+		}
+
+		system("CLS");
+		switch (ctrl)
+		{
+		case 1: {
+			if (!doneVoting && !e.getRoundType()) //check the round type
+				addDistric(e); 
+			else
+				std::cout << "function not avilable in a Simple Election round" << endl;break; }
+		case 2: {if (!doneVoting) { addCitizen(e); }break; }
+		case 3: {if (!doneVoting) { addParty(e); }break; }
+		case 4: {if (!doneVoting) { addPartyCandidates(e); }break; }
+		case 5: {e.printDistricts(); break; }
+		case 6: {e.printCitizens(); break; }
+		case 7: {e.printParties(); break; }
+		case 8: {if (!doneVoting) openVotingMenu(e, doneVoting); break; }
+		case 9: {if (doneVoting) { results(e); }; break; }
+		case 10: { done = true; break; }
+		case 11: { save(e); break; }
+		case 12: { cout << "loading is complicated, not working yet..." << endl; break; }
+		}
+	}
+	system("CLS");
+	std::cout << "Exit menu was chosen, byebye!" << endl;
+}
+
 
 void save(Elections& e)
 {
@@ -58,21 +154,29 @@ void addDistric(Elections& e)
 {
 	char name[MAX_SIZE];
 	int num;
-	bool div;
+	bool type = false;
 	//need implementation of choosing between Divided or Complete district
-	std::cout << "please enter district type (0=unified , 1=divided): " << endl;
-	cin >> div;
-	std::cout << "enter name of district" << endl;
+	std::cout << "enter name of district:" << endl;
 	cin.ignore();
 	cin.getline(name, MAX_SIZE);
-	std::cout << "enter number of representitves" << endl; cin >> num;
-	e.addDistrict(name, num, div);
+	std::cout << "enter number of representitves:" << endl; cin >> num;
+	std::cout << "enter type of district: (0 - normal, 1 - diveded):" << endl; cin >> type;
+	//============= for shemsh
+	//Divided* newDist = new Divided(name, num);
+	//e.addDistrict(newDist);
+	//================
+	if (type)
+		e.addDistrict(name, num); // //e.addDistrict(newDist);
+	else
+		e.addDistrict(name, num);
+
 	if (!e.isPartiesEmpty())
 	{
 		e.AddNewDistToParties(e.getDistrictsLength());
 	}
 	std::cout << "all good, passed input" << endl;
 }
+
 void addCitizen(Elections& e)
 {
 	char name[MAX_SIZE];
@@ -82,13 +186,21 @@ void addCitizen(Elections& e)
 
 	std::cout << "enter id" << endl; cin >> id;
 	std::cout << "enter year of birth" << endl; cin >> yob;
-	std::cout << "enter district from avilable: ";
-	e.printDistrictsNameAndID(); std::cout << endl;
-	cin >> distID;
-	e.addCitizen(name, id, e.getDistrict(distID), yob);
+	//Handle simple round
+	if (!e.getRoundType())
+	{
+		std::cout << "enter district from avilable: ";
+		e.printDistrictsNameAndID(); std::cout << endl;
+		cin >> distID;
+		e.addCitizen(name, id, e.getDistrict(distID), yob);
+	}
+	else // if simple, we want to pass add citizen function without district
+	{
+		std::cout << "Error - function not coded yet";
+		 // e.addCitizen(name, id, yob);
+	}
 	std::cout << "all good, passed input" << endl;
 }
-
 
 void addParty(Elections& e)
 {
@@ -186,11 +298,10 @@ void results(Elections& e)
 	int winnerIdDist, winner;
 	int numOfDistricts = e.getDistrictsLength(), numOfParties = e.getPartiesLength();
 	int numOfReps;
-	const char * partyName;
-	const District* dist;
+	const char* distName, * partyName;
 
 	e.setResults();
-	winner = e.getVotes().getWinner(e.getDistList());
+	winner = e.getVotes().getWinner();
 	std::cout << "The new prime minister for elections " << e.getDate() << endl
 		<< "is: " << e.getParty(winner).getBossID().getName() << endl
 		<< "from party: " << e.getParty(winner).getPartyName() << endl << endl;
@@ -199,26 +310,13 @@ void results(Elections& e)
 
 	for (int i = 0; i < numOfDistricts; i++)
 	{
-		dist = &e.getDistrict(i);
+		distName = e.getDistrict(i).getDistName();
 		winnerIdDist = e.getVotes().getWinnerIDInDist(i);
 		partyName = e.getParty(winnerIdDist).getPartyName();
 		numOfReps = e.getDistrict(i).getDistReps();
-		std::cout << "For district " << dist->getDistName() << ", " << endl
-			<< "number of representative in the district: " << numOfReps << endl;
-		if (typeid(*dist) == typeid(Divided))
-		{
-			cout << dist->getDistName() << " is a divided district, and so:" << endl << endl;
-			for (int j = 0; j < numOfParties; j++)
-			{
-				int num = e.getVotes().getElectorsforPartyInDist(j, i);
-				cout << num << " Electors from the district choose " << e.getParty(j).getBossID().getName()
-					<< ", of party " << e.getParty(j).getPartyName() << endl;
-			}
-			cout << endl;
-		}
-		else
-			cout<< "The district gives all of its representatives to: " << partyName << endl << endl;
-
+		std::cout << "For district " << distName << ", " << endl
+			<< "number of representative in the district: " << numOfReps << endl
+			<< "The district gives all of its representatives to: " << partyName << endl << endl;
 		for (int j = 0; j < numOfParties; j++)
 		{
 			numOfReps = e.getVotes().getElectorsforPartyInDist(j, i);
@@ -232,18 +330,16 @@ void results(Elections& e)
 			else
 			{
 				cout << "the representatives from the party are: " << endl;
-				e.getDistrict(i).getRepsFromParty(j).printsenatorsList(numOfReps); 
+				e.getDistrict(i).getRepsFromParty(j).printsenatorsList(numOfReps);
 				cout << endl;
-				
+
 			}
 
 		}
 
 	}
 	return;
-
 }
-
 
 bool handleErrors(int ctrl, Elections& e)
 {
@@ -294,80 +390,3 @@ bool handleErrors(int ctrl, Elections& e)
 }
 
 
-void openingMenu(Elections& e)
-{
-	int ctrl;
-	inputScreenPage1();
-	cin >> ctrl;
-
-	while (ctrl < 1 || ctrl>10) //handle inputs
-	{
-		std::cout << "wrong input!!" << endl;
-		cin >> ctrl; 
-	}
-	switch (ctrl)
-	{
-	case 1: { system("CLS");  mainMenu(e); break; }
-	case 2: { std::cout << "loading file.." << endl; break; }
-	case 3: { std::cout << "Exit menu was chosen, byebye!" << endl; break; }
-	}
-
-}
-
-
-void mainMenu(Elections& e)
-{
-	int ctrl;
-	bool doneVoting = false;
-	bool done = false; //flag for while loop
-	char* date = new char[MAX_SIZE];
-
-	std::cout << " Welcome to Roy & Alon Election program!" << endl
-		<< "please enter the date fot this run in 'DD/MM/YYYY' format:" << endl;
-	cin.ignore();
-	cin.getline(date, MAX_SIZE);
-
-	e.setDate(date);
-	delete[] date;
-
-	while (!done)
-	{
-		inputScreenPage2();
-		cin >> ctrl;
-		while (ctrl < 1 || ctrl>12) //handle inputs
-		{
-			std::cout << "wrong input!!" << endl;
-			cin >> ctrl;
-		}
-		while (handleErrors(ctrl, e)) //handle logical errors
-		{
-			cin >> ctrl;
-		}
-
-		system("CLS");
-		switch (ctrl)
-		{
-		case 1: {if (!doneVoting) { addDistric(e); } break; }
-		case 2: {if (!doneVoting) { addCitizen(e); }break; }
-		case 3: {if (!doneVoting) { addParty(e); }break; }
-		case 4: {if (!doneVoting) { addPartyCandidates(e); }break; }
-		case 5: {e.printDistricts(); break; }
-		case 6: {e.printCitizens(); break; }
-		case 7: {e.printParties(); break; }
-		case 8: {if (!doneVoting) openVotingMenu(e, doneVoting); break; }
-		case 9: {if (doneVoting) { results(e); }; break; }
-		case 10: { done = true; break; }
-		case 11: { save(e); break; }
-		case 12: { cout << "loading is complicated, not working yet..." << endl ; break; }
-		}
-	}
-	system("CLS");
-	std::cout << "Exit menu was chosen, byebye!" << endl;
-}
-
-int main()
-{
-	Elections e;
-	openingMenu(e);
-	cout << "chao";
-}

@@ -4,13 +4,22 @@
 namespace elc {
 
 
+	void Representatives::makeEmpty(void)
+	{
+		Senator* temp;
+		while (head != nullptr)
+		{
+			temp = head;
+			head = head->getNext();
+			delete temp;
+		}
+	}
+
 	bool Representatives::setPartyID(int id)
 	{
 		this->PartyID = id;
 		return true;
 	}
-
-	int Representatives::getPartyID() const { return PartyID; }
 
 	bool Representatives::addSenator(const Citizen& rep)
 	{
@@ -34,17 +43,15 @@ namespace elc {
 
 	}
 
-	void Representatives::makeEmpty(void)
+	void Representatives::printsenatorsList(int num) const
 	{
-		Senator* temp;
-		while (head != nullptr)
+		Senator* temp = head;
+		for (int i = 0; i < num; i++)
 		{
-			temp = head;
-			head = head->getNext();
-			delete temp;
+			cout << temp->getCandidate().getName() << endl;
+			temp = temp->getNext();
 		}
 	}
-
 
 
 }
