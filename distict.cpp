@@ -13,6 +13,7 @@ namespace elc
 		int len = strlen(_name);
 		this->name = new char[len + 1];
 		memcpy(this->name, _name, len + 1);
+		name[len] = '\0';
 		return true;
 	}
 
@@ -188,5 +189,19 @@ namespace elc
 		setDistrict(o.name, o.distID, o.totalReps, o.voters_precentage, o.citizens, o.RepsList);
 	}
 
+	std::ostream& operator<<(std::ostream& out, const District& other)
+	{
+
+		std::cout
+			<< "district number: " << other.distID << " , "
+			<< "name: " << other.name << " , "
+			<< "number of Representatives: " << other.totalReps;
+		if (typeid(other) == typeid(Divided))
+			std::cout << " , type: Divided.";
+		else
+			std::cout << " , type: Unified.";
+		return out;
+
+	}
 
 }

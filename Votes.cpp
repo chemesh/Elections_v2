@@ -5,12 +5,10 @@ using namespace std;
 namespace elc
 {
 	Votes::Votes(int _numOfParties, int _numOfDistricts) :
-		numOfDistricts(_numOfDistricts), numOfParties(_numOfParties)
+		numOfDistricts(_numOfDistricts), numOfParties(_numOfParties), after_calcs(false)
 	{
 		setVotes_table();
 		setElectors_table();
-		setElectors_table();
-		setVotes_table();
 	}
 
 	Votes::~Votes()
@@ -89,6 +87,17 @@ namespace elc
 		return true;
 	}
 
+	bool Votes::finishCalcs()
+	{
+		after_calcs = true;
+		return true;
+	}
+
+	const bool Votes::isCalcsDone()
+	{
+		return after_calcs;
+	}
+
 	const int& Votes::getnumOfParties()
 	{
 		return numOfParties;
@@ -136,7 +145,7 @@ namespace elc
 	{
 		int i, j, partyElectors, chosen_counter = 0, remaining;
 		int totalVotes = getTotalVotesInDistrict(dist.getDistID());
-		float partyPrecent, approxElectors, avg; //= (float)dist.getDistReps() / numOfParties;
+		float partyPrecent, approxElectors, avg;
 		const Senator* temp;
 
 		for (i = 0; i < numOfParties; i++) //calculating rough estimate of electors for each party
@@ -153,7 +162,7 @@ namespace elc
 		if (remaining > 0)
 		{
 			avg = static_cast<float>(remaining) / numOfParties;
-			for (i = 0; i < numOfParties; i++)
+			for (i = 0; i < numOfParties && remaining > 0; i++)
 			{
 				partyPrecent = getPartyVotesPrecentageInDist(i, dist.getDistID());
 				approxElectors = (partyPrecent / 100) * dist.getDistReps();
@@ -273,7 +282,7 @@ namespace elc
 
 
 	/************************* added *********************************/
-	const int Votes::getWinner(const DistrictsList& D_list) const
+	const int& Votes::getWinner(const DistrictsList& D_list) const
 	{
 		int i, j, max = 0, tempSum, winnerID = -1;
 		int* counter = new int[numOfParties];
@@ -285,7 +294,7 @@ namespace elc
 		for (i = 0; i < numOfDistricts; i++)
 		{
 			temp = &D_list.getDistrict(i);
-			if (typeid(temp) == typeid(Divided)) //if distrcit is Divided
+			if (typeid(*temp) == typeid(Divided)) //if distrcit is Divided
 			{
 				for (j = 0; j < numOfParties; j++) 
 				{ //count for each party the number of electors they got
@@ -294,14 +303,13 @@ namespace elc
 			}
 			else //the district is not divided
 			{
-				for (i = 0; i < numOfDistricts; i++)
-				{ //add all the electors is the district to the party that won in that district
-					tempSum = 0;
-					for (j = 0; j < numOfParties; j++)
-						tempSum += electors[i][j];
+				//add all the electors is the district to the party that won in that district
+				tempSum = 0;
+				for (j = 0; j < numOfParties; j++)
+					tempSum += electors[i][j];
 
-					counter[getWinnerIDInDist(i)] += tempSum;
-				}
+				counter[getWinnerIDInDist(i)] += tempSum;
+		
 			}
 		}
 		//checks which party has the most electors
