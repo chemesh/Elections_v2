@@ -9,17 +9,17 @@ namespace  elc {
 	class DistrictsList
 	{
 	private:
-		District* list;
+		District** list;
 		int length;
 		int size;
 
 	public:
-		DistrictsList(int _size = 1) : length(0), size(_size) { list = new District[_size]; }
+		DistrictsList(int _size = 1) : length(0), size(_size) { list = new District*[_size]; }
 		~DistrictsList() { cout << "distlist dtor" << endl; delete[] list; }
 
 		bool setSize(const int&);
 		bool setLength(const int&);
-		bool setDistrict(char* _DistrictName, int numOfReps);
+		bool setDistrict(char* _DistrictName, int numOfReps, bool div);
 		//new
 		bool setDistrict(const District& _dist);
 
@@ -27,10 +27,10 @@ namespace  elc {
 
 		int getSize() const;
 		int getLength() const;
-		const District* getList() const { return (list); }
-		const District& getDistrict(const int& distID) const { return list[distID]; }
-		District& getDistrict(int distID, bool flag) const { return list[distID]; }
-		const int& getTotalRepsInDist(const int& distID) const { return list[distID].getDistReps(); }
+		District** const getList() const { return list; }
+		const District& getDistrict(const int& distID) const { return *(list[distID]); }
+		District& getDistrict(int distID, bool flag) const { return *(list[distID]); }
+		const int& getTotalRepsInDist(const int& distID) const { return list[distID]->getDistReps(); }
 
 		bool isFull();
 
@@ -47,14 +47,14 @@ namespace  elc {
 		void PrintNameAndId() //new function
 		{
 			for (int i = 0; i < length; i++)
-				list[i].printNameAndId();
+				list[i]->printNameAndId();
 		}
 
 		friend std::ostream& operator<<(std::ostream& out, const DistrictsList& other)
 		{
 			for (int i = 0; i < other.length; i++)
 			{
-				cout << other.list[i] << '\n';
+				cout << *other.list[i] << '\n';
 			}
 			return out;
 		}

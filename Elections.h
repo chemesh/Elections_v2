@@ -37,11 +37,12 @@ namespace elc {
 
 		void addCitizen(const char* name, int id, const District& dist, int yob);
 		void addParty(char* name, const Citizen& boss);
-		void addDistrict(char* name, int num);
+		void addDistrict(char* name, int num, bool div);
 
 		const Party& getParty(const int& partyID) const { return parties.getParty(partyID); }
 		const District& getDistrict(const int& distID) { return districts.getDistrict(distID); }
 		District& getDistrict(int distID, bool flag) { return districts.getDistrict(distID, flag); }
+		const DistrictsList& getDistList() const { return districts; }
 		void printDistrictsNameAndID() //new function
 		{
 			districts.PrintNameAndId();//need to pass to .cpp

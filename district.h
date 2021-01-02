@@ -34,9 +34,10 @@ namespace elc
 			//cout << "district ctor v1" << endl;
 		};
 
-		District(char* _name, int _numOfReps) : name(_name), distID(0), totalReps(_numOfReps),
+		District(char* _name, int _numOfReps) : distID(0), totalReps(_numOfReps),
 			citizens(), RepsList(nullptr), reps_size(1), reps_lentgh(0), voters_precentage(0)
 		{
+			setDistName(_name);
 			RepsList = new Representatives[reps_size];
 			RepsList[0].setPartyID(0);
 			cout << "district ctor v2";
@@ -89,15 +90,8 @@ namespace elc
 		bool isRepListFull(void) { return (reps_size == reps_lentgh); }
 		bool addNewPartyReps(Party _newParty, int numOfReps);
 
-		friend std::ostream& operator<<(std::ostream& out, const District& other)
-		{
-			std::cout
-				<< "district number: " << other.distID << " , "
-				<< "name: " << other.name << " , "
-				<< "number of Representatives: " << other.totalReps << ".";
-			return out;
+		friend std::ostream& operator<<(std::ostream& out, const District& other);
 
-		}
 
 		void printNameAndId() //new function
 		{

@@ -56,12 +56,15 @@ void addDistric(Elections& e)
 {
 	char name[MAX_SIZE];
 	int num;
+	bool div;
 	//need implementation of choosing between Divided or Complete district
+	std::cout << "please enter district type (0=unified , 1=divided): " << endl;
+	cin >> div;
 	std::cout << "enter name of district" << endl;
 	cin.ignore();
 	cin.getline(name, MAX_SIZE);
 	std::cout << "enter number of representitves" << endl; cin >> num;
-	e.addDistrict(name, num);
+	e.addDistrict(name, num, div);
 	if (!e.isPartiesEmpty())
 	{
 		e.AddNewDistToParties(e.getDistrictsLength());
@@ -181,10 +184,11 @@ void results(Elections& e)
 	int winnerIdDist, winner;
 	int numOfDistricts = e.getDistrictsLength(), numOfParties = e.getPartiesLength();
 	int numOfReps;
-	const char* distName, * partyName;
+	const char * partyName;
+	const District* dist;
 
 	e.setResults();
-	winner = e.getVotes().getWinner();
+	winner = e.getVotes().getWinner(e.getDistList());
 	std::cout << "The new prime minister for elections " << e.getDate() << endl
 		<< "is: " << e.getParty(winner).getBossID().getName() << endl
 		<< "from party: " << e.getParty(winner).getPartyName() << endl << endl;
@@ -193,13 +197,26 @@ void results(Elections& e)
 
 	for (int i = 0; i < numOfDistricts; i++)
 	{
-		distName = e.getDistrict(i).getDistName();
+		dist = &e.getDistrict(i);
 		winnerIdDist = e.getVotes().getWinnerIDInDist(i);
 		partyName = e.getParty(winnerIdDist).getPartyName();
 		numOfReps = e.getDistrict(i).getDistReps();
-		std::cout << "For district " << distName << ", " << endl
-			<< "number of representative in the district: " << numOfReps << endl
-			<< "The district gives all of its representatives to: " << partyName << endl << endl;
+		std::cout << "For district " << dist->getDistName() << ", " << endl
+			<< "number of representative in the district: " << numOfReps << endl;
+		if (typeid(*dist) == typeid(Divided))
+		{
+			cout << dist->getDistName() << " is a divided district, and so:" << endl << endl;
+			for (int j = 0; j < numOfParties; j++)
+			{
+				int num = e.getVotes().getElectorsforPartyInDist(j, i);
+				cout << num << " Electors from the district choose " << e.getParty(j).getBossID().getName()
+					<< ", of party " << e.getParty(j).getPartyName() << endl;
+			}
+			cout << endl;
+		}
+		else
+			cout<< "The district gives all of its representatives to: " << partyName << endl << endl;
+
 		for (int j = 0; j < numOfParties; j++)
 		{
 			numOfReps = e.getVotes().getElectorsforPartyInDist(j, i);
