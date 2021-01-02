@@ -27,9 +27,11 @@ namespace elc {
 		bool addSenator(const Senator&);
 
 		void printsenatorsList(int num) const;
+
+
 	};
 
 
 
-
+	
 }

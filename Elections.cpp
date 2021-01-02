@@ -101,9 +101,33 @@ namespace elc {
 	/**************************serialiazion***************************/
 		void Elections::save(ostream& out) const
 		{
-			int len = strlen(date);
-			out.write(rcastcc(&len), sizeof(len));
-			out.write(rcastc(date), sizeof(len));
-			parties.save(out);
+			int len = strlen(date); 
+			out.write(rcastcc(&len), sizeof(len));                 //save len of date
+			out.write(date, len);                                  //save date
+			out.write(rcastcc(&roundType), sizeof(roundType));	   //save round type
+			if (!roundType) //meaning election round is normal
+			{
+				districts.save(out);
+				//citizens
+				parties.save(out);
+				
+			}
 		}
+		void Elections::load(istream& in)
+		{
+			int len;
+			in.read(rcastc(&len), sizeof(len));
+			date = new char[len + 1];
+
+			in.read(date, len);
+			date[len] = '\0';
+
+			in.read(rcastc(&roundType), sizeof(roundType));
+			districts.load(in);
+
+
+
+
+		}
+
 	}

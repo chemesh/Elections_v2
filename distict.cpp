@@ -201,7 +201,45 @@ namespace elc
 		else
 			std::cout << " , type: Unified.";
 		return out;
-
 	}
 
+	bool District::isDivided()
+	{
+		if (typeid(*this) == typeid(Divided))
+			return true;
+		else
+			return false;
+	}
+
+	void District::save(ostream& out) const 
+	{
+		int len = strlen(name);
+		out.write(rcastcc(&len), sizeof(len));									 // name length
+		out.write(name, len +1 );												// len+1 for the '\0'
+		out.write(rcastcc(&distID), sizeof(distID));							 // int distID
+		out.write(rcastcc(&totalReps), sizeof(totalReps));						 // int - total reps
+		out.write(rcastcc(&voters_precentage), sizeof(voters_precentage));       // float - votes percentag
+		//citizen list will be updated later on load, no need to keep them here	 //
+
+		out.write(rcastcc(&reps_lentgh), sizeof(reps_lentgh));					 //int repsList length
+		//reps conected list will be added later
+		//for (int i = 0; i < reps_lentgh; i++)									 //for each reps, save
+		//	RepsList[i].save(out);
+	}
+
+	void District::load(istream& in)
+	{
+		int len;
+		in.read(rcastc(&len), sizeof(len));
+		name = new char[len + 1];
+		in.read(name, len + 1);
+		in.read(rcastc(&distID), sizeof(distID));
+		in.read(rcastc(&totalReps), sizeof(totalReps));
+		in.read(rcastc(&voters_precentage), sizeof(voters_precentage));
+		//citizenlist...
+		in.read(rcastc(&reps_lentgh), sizeof(reps_lentgh));
+		RepsList = new Representatives[reps_lentgh];
+		//for (int i = 0; i < reps_lentgh; i++)									 
+		//	RepsList[i].load(in);
+	}
 }

@@ -34,14 +34,6 @@ namespace  elc {
 
 		bool isFull();
 
-		//void printList()
-		//{
-		//	for (int i = 0; i < length; i++)
-		//	{
-		//		cout << list[i] << '\n';
-		//	}
-		//}
-
 		void operator=(const DistrictsList& o);
 
 		void PrintNameAndId() //new function
@@ -58,5 +50,14 @@ namespace  elc {
 			}
 			return out;
 		}
+
+		bool isDivided(int i);
+
+		void save(ostream& out) const;
+		void load(istream& in);
+
 	};
+
+
+
 }

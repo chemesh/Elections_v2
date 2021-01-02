@@ -203,9 +203,13 @@ namespace elc {
 	void Party::save(ostream& out) const
 	{
 		int len = strlen(partyName);
-		out.write(rcastcc(&len), sizeof(len));
-		out.write(rcastcc(partyName), sizeof(len));
+		len++; //add ++ for '\0'
+		out.write(rcastcc(&len), sizeof(len));	
+		out.write(partyName, len);
 		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
+		
+
+
 	}
 
 	void Party::load(istream& in)

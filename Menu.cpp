@@ -23,6 +23,8 @@ void results(Elections& e);
 void openVotingMenu(Elections& e, bool& doneVoting);
 bool handleErrors(int ctrl, Elections& e);
 
+void load(Elections* e);
+
 void inputScreenPage1()
 {
 	std::cout << "--------intput screen--------" << endl;
@@ -69,7 +71,7 @@ void openingMenu(Elections& e)
 	switch (ctrl)
 	{
 	case 1: { system("CLS");  mainMenu(e); break; }
-	case 2: { std::cout << "loading file.." << endl; break; }
+	case 2: { load(&e) ; break; }
 	case 3: { std::cout << "Exit menu was chosen, byebye!" << endl; break; }
 	}
 }
@@ -157,6 +159,27 @@ void save(Elections& e)
 	cout << "data was saved to file: " << name << endl;
 	outfile.close();
 }
+
+
+void load(Elections* e)
+{
+	char name[MAX_SIZE];
+	std::cout << "enter name of file" << endl;
+	cin.ignore();
+	cin.getline(name, MAX_SIZE);
+
+	ifstream infile(name, ios::binary);
+		if (!infile)
+		{
+			cout << "error opening file for read" << endl;
+			exit(-1);
+		}
+		//delete e somehow>
+		e = new Elections(infile);
+		e->printDistricts();
+		mainMenu(*e);
+}
+
 
 void addDistric(Elections& e)
 {
@@ -296,7 +319,6 @@ void openVotingMenu(Elections& e, bool& doneVoting)
 	doneVoting = true;
 	return;
 }
-
 
 void results(Elections& e)
 {
