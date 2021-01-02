@@ -25,7 +25,10 @@ namespace elc {
 		Elections() : date(nullptr), roundType(0) {};
 		~Elections() { cout << "elec dtor" << endl; if (date != nullptr) delete[] date; };
 
-
+		void handleSimpleRound(char* name, const int& reps)
+		{	
+			districts.setDistrict(name, reps, true);
+		}
 
 		int getPartiesLength() const { return parties.getLength(); }
 		int getCitizensLength() const { return citizens.getLength(); }

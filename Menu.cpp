@@ -81,7 +81,8 @@ void mainMenu(Elections& e)
 	bool doneVoting = false;
 	bool done = false; //flag for while loop
 	char* date = new char[MAX_SIZE];
-	int type = 0;
+	int type = 0, reps = 0;
+	char distName[20] = "districtName";
 
 	std::cout << " Welcome to Roy & Alon Election program!" << endl
 		<< "please enter the date fot this run in 'DD/MM/YYYY' format: " << endl;
@@ -91,7 +92,14 @@ void mainMenu(Elections& e)
 	delete[] date;
 
 	std::cout << "choose Election round type (0 - normal) , (1 - simple) : "; cin >> type;
-	e.setRoundType(type);
+	if (type)
+	{
+		e.setRoundType(type);
+		std::cout << "Enter number of Representitives: "; cin >> reps;
+		e.handleSimpleRound(distName, reps);
+	}
+
+
 	system("CLS");
 	while (!done)
 	{
@@ -193,8 +201,7 @@ void addCitizen(Elections& e)
 	}
 	else // if simple, we want to pass add citizen function without district
 	{
-		std::cout << "Error - function not coded yet";
-		 // e.addCitizen(name, id, yob);
+		 e.addCitizen(name, id,e.getDistrict(0),yob); //in simple round, 0 is default id
 	}
 	std::cout << "all good, passed input" << endl;
 }
@@ -379,25 +386,6 @@ bool handleErrors(int ctrl, Elections& e)
 		std::cout << "no citizens avilable" << endl;
 		return true;
 	}
-
-	//if (ctrl == 8)
-	//{
-	//	system("CLS");
-	//	int i, j;
-	//	for (i = 0; i < e.getDistrictsLength(); i++)
-	//	{
-	//		for (j = 0; j < e.getPartiesLength(); j++)
-	//		{
-	//			if (!e.isEnoughRepsInDist(i, j))
-	//			{
-	//				std::cout << "there are " << e.getParty(j).getElectorInDist(i).getNumOfSenators() << " candidates in Party number "
-	//				<< j << ", while the minimum candidates in district " << i << " is " << e.getDistrict(i).getDistReps() << endl
-	//				<< "please enter more candidates for the party " << e.getParty(j).getPartyName() << endl;
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//}
 
 	return false;
 }
