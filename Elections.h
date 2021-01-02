@@ -14,6 +14,7 @@ namespace elc {
 	class Elections
 	{
 	private:
+		int roundType; // 0 = normal, 1 = simple
 		char* date;
 		PartyList parties;
 		CitizensList citizens;
