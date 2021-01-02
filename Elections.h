@@ -31,6 +31,7 @@ namespace elc {
 		int getCitizensLength() const { return citizens.getLength(); }
 		int getDistrictsLength() const { return districts.getLength(); }
 
+
 		const char* getDate() const { return date; }
 		const int& getRoundType() const { return roundType;  }
 
@@ -38,6 +39,8 @@ namespace elc {
 		const District& getDistrict(const int& distID) { return districts.getDistrict(distID); }
 		District& getDistrict(int distID, bool flag) { return districts.getDistrict(distID, flag); }
 
+		const DistrictsList& getDistList() const { return districts; }
+    
 		bool setDate(char* date);
 		bool setRoundType(int _type);
 

@@ -4,7 +4,7 @@ namespace elc
 {
 	bool DistrictsList::setSize(const int& _size)
 	{
-		District* temp = new District[_size];
+		District** temp = new District*[_size];
 
 		for (int i = 0; i < size; i++)
 			temp[i] = list[i];
@@ -20,14 +20,22 @@ namespace elc
 		return true;
 	}
 
-	bool DistrictsList::setDistrict(char* _DistrictName, int numOfReps)
+	bool DistrictsList::setDistrict(char* _DistrictName, int numOfReps, bool div)
 	{
+		//District* temp;
 		if (isFull())
 		{
 			setSize(size * 2);
 		}
-		list[length].setDistrict(_DistrictName, numOfReps);
-		list[length].setDistID(length);
+		if (div)
+			list[length] = new Divided(_DistrictName, numOfReps);
+			//temp = new Divided(_DistrictName, numOfReps);
+		else 
+			list[length] = new District(_DistrictName, numOfReps);
+			//temp = new District(_DistrictName, numOfReps);
+		//list[length]->setDistrict(_DistrictName, numOfReps);
+		//list[length] = temp;
+		list[length]->setDistID(length);
 		setLength(length + 1);
 		return true;
 	}
@@ -38,8 +46,8 @@ namespace elc
 		{
 			setSize(size * 2);
 		}
-		list[length] = _dist;
-		list[length].setDistID(length);
+		*(list[length]) = _dist;
+		list[length]->setDistID(length);
 		setLength(length + 1);
 		return true;
 	}
@@ -47,7 +55,7 @@ namespace elc
 	//added
 	bool DistrictsList::setCitizenInDist(const Citizen& resident, const District& dist)
 	{
-		list[dist.getDistID()].setDistCitizenInList(resident);
+		list[dist.getDistID()]->setDistCitizenInList(resident);
 		return true;
 	}
 

@@ -13,6 +13,7 @@ namespace elc
 	class Votes
 	{
 	private:
+		bool after_calcs;
 		//holds in each cell the number of votes
 		int** votes_table;
 
@@ -26,7 +27,7 @@ namespace elc
 		//table[districts][parties]
 
 	public:
-		Votes() :votes_table(nullptr), electors(nullptr), numOfDistricts(0), numOfParties(0) {}
+		Votes() :votes_table(nullptr), electors(nullptr), numOfDistricts(0), numOfParties(0),after_calcs(false) {}
 		Votes(int _numOfParties, int _numOfDistricts);
 		~Votes();
 
@@ -35,8 +36,9 @@ namespace elc
 		bool setVotes_table();
 		bool setElectors_table();
 		bool setVote(Citizen&, int PartyID);
+		bool finishCalcs();
 
-
+		const bool isCalcsDone();
 		const int& getnumOfParties();
 		const int& getnumOfDistricts();
 		const int getTotalPartyVotes(const int& partyID)const;
@@ -51,7 +53,7 @@ namespace elc
 		const int getWinnerIDInDist(const int& distID) const;
 		const int getWinnerIDInDist(District* const dist) const;
 		const int getWinner() const;
-		const int getWinner(const DistrictsList& D_list) const;
+		const int& getWinner(const DistrictsList& D_list) const;
 
 
 	};

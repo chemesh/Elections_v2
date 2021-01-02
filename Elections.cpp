@@ -27,9 +27,9 @@ namespace elc {
 	{
 		parties.setParty(name, boss, districts.getLength());
 	}
-	void Elections::addDistrict(char* name, int num)
+	void Elections::addDistrict(char* name, int num, bool div)
 	{
-		districts.setDistrict(name, num);
+		districts.setDistrict(name, num, div);
 	}
 
 	void Elections::addPartyCandidate(int id, int partyID, int distID)
@@ -86,12 +86,16 @@ namespace elc {
 
 	void Elections::setResults()
 	{
+		if (voting.isCalcsDone())
+			return;
+
 		bool flag = true;
 		for (int i = 0; i < getDistrictsLength(); i++)
 		{
 			districts.getDistrict(i, flag).initRepsList(parties.getLength(), parties.getPartyList());
 			voting.setElectorsInDist(parties, getDistrict(i, flag));
 		}
+		voting.finishCalcs();
 }
 
 	/**************************serialiazion***************************/
