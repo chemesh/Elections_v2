@@ -8,7 +8,6 @@ using namespace elc;
 void openingMenu(Elections& e);
 
 
-
 int main()
 {
 	Elections e;

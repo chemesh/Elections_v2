@@ -10,7 +10,7 @@ using namespace elc;
 void mainMenu(Elections& e);
 
 void inputScreenPage1();
-void inputScreenPage2();
+void inputScreenPage2(Elections& e);
 
 void save(Elections& e);
 
@@ -25,16 +25,20 @@ bool handleErrors(int ctrl, Elections& e);
 
 void inputScreenPage1()
 {
-	std::cout << "-----intput screen-----" << endl;
+	std::cout << "--------intput screen--------" << endl;
 	std::cout
 		<< " 1 - Create new election round. " << endl
 		<< " 2 - Load Existing election round from file." << endl
 		<< " 3 - Exit program." << endl
 		<< "waiting for input..." << endl;
 }
-void inputScreenPage2()
+void inputScreenPage2(Elections& e)
 {
-	std::cout << "-----intput screen-----" << endl;
+	
+	std::cout << endl << "--------intput screen--------" << endl;
+	(e.getRoundType()) ? cout << "   Simple Election Round" << endl : cout << "   Normal Election Round" << endl;
+	std::cout << "   Election Date:" << e.getDate() << endl;
+	std::cout << "--------intput screen--------" << endl << endl;
 	std::cout << "what would you like to add? " << endl
 		<< " 1 - Add District. " << endl
 		<< " 2 - Add Citizen." << endl
@@ -77,20 +81,21 @@ void mainMenu(Elections& e)
 	bool doneVoting = false;
 	bool done = false; //flag for while loop
 	char* date = new char[MAX_SIZE];
+	int type = 0;
 
 	std::cout << " Welcome to Roy & Alon Election program!" << endl
-		<< "please enter the date fot this run in 'DD/MM/YYYY' format:" << endl;
+		<< "please enter the date fot this run in 'DD/MM/YYYY' format: " << endl;
 	cin.ignore();
 	cin.getline(date, MAX_SIZE);
-
 	e.setDate(date);
 	delete[] date;
 
-	//electoin type input
-
+	std::cout << "choose Election round type (0 - normal) , (1 - simple) : "; cin >> type;
+	e.setRoundType(type);
+	system("CLS");
 	while (!done)
 	{
-		inputScreenPage2();
+		inputScreenPage2(e);
 		cin >> ctrl;
 		while (ctrl < 1 || ctrl>12) //handle inputs
 		{
@@ -105,7 +110,11 @@ void mainMenu(Elections& e)
 		system("CLS");
 		switch (ctrl)
 		{
-		case 1: {if (!doneVoting) { addDistric(e); } break; }
+		case 1: {
+			if (!doneVoting && !e.getRoundType()) //check the round type
+				addDistric(e); 
+			else
+				std::cout << "function not avilable in a Simple Election round" << endl;break; }
 		case 2: {if (!doneVoting) { addCitizen(e); }break; }
 		case 3: {if (!doneVoting) { addParty(e); }break; }
 		case 4: {if (!doneVoting) { addPartyCandidates(e); }break; }
@@ -177,10 +186,19 @@ void addCitizen(Elections& e)
 
 	std::cout << "enter id" << endl; cin >> id;
 	std::cout << "enter year of birth" << endl; cin >> yob;
-	std::cout << "enter district from avilable: ";
-	e.printDistrictsNameAndID(); std::cout << endl;
-	cin >> distID;
-	e.addCitizen(name, id, e.getDistrict(distID), yob);
+	//Handle simple round
+	if (!e.getRoundType())
+	{
+		std::cout << "enter district from avilable: ";
+		e.printDistrictsNameAndID(); std::cout << endl;
+		cin >> distID;
+		e.addCitizen(name, id, e.getDistrict(distID), yob);
+	}
+	else // if simple, we want to pass add citizen function without district
+	{
+		std::cout << "Error - function not coded yet";
+		 // e.addCitizen(name, id, yob);
+	}
 	std::cout << "all good, passed input" << endl;
 }
 

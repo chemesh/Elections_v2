@@ -16,6 +16,8 @@ namespace elc {
 		return true;
 	}
 
+	bool Elections::setRoundType(int _type) { return this->roundType = _type; }
+
 	void Elections::addCitizen(const char* name, int id, const District& dist, int yob)
 	{
 		citizens.setCitizen(name, id, yob, dist);
@@ -28,25 +30,6 @@ namespace elc {
 	void Elections::addDistrict(char* name, int num)
 	{
 		districts.setDistrict(name, num);
-	}
-
-	int Elections::getPartiesLength() const { return parties.getLength(); }
-	int Elections::getCitizensLength() const { return citizens.getLength(); }
-	int Elections::getDistrictsLength() const { return districts.getLength(); }
-
-	void Elections::printCitizens() { cout << citizens; }
-	void Elections::printParties() { cout << parties; }
-	void Elections::printDistricts() { cout << districts; }
-
-	/*********************************************/
-
-	Citizen* Elections::findCitizen(int id)
-	{
-		citizens.CitizenSort();
-		return (citizens.getCitizen(id));
-		//if ID doesn't exist in the database,
-		//the return value will be nullptr
-
 	}
 
 	void Elections::addPartyCandidate(int id, int partyID, int distID)
@@ -64,9 +47,25 @@ namespace elc {
 		parties.AddNewDistToParties(distID);
 	}
 
+	Citizen* Elections::findCitizen(int id)
+	{
+		citizens.CitizenSort();
+		return (citizens.getCitizen(id));
+		//if ID doesn't exist in the database,
+		//the return value will be nullptr
+	}
+
+
+	void Elections::printCitizens() { cout << citizens; }
+	void Elections::printParties() { cout << parties; }
+	void Elections::printDistricts() { cout << districts; }
 	void Elections::printPartiesNameAndID()
 	{
 		parties.PrintNameAndId();
+	}
+	void Elections::printDistrictsNameAndID() 
+	{
+		districts.PrintNameAndId();//need to pass to .cpp
 	}
 
 	/*********************** voting proccess *******************************/
@@ -75,7 +74,6 @@ namespace elc {
 	{
 		return (parties.getParty(partyID).getElectorInDist(distID).getNumOfSenators() > districts.getTotalRepsInDist(distID));
 	}
-
 
 	void Elections::StartVotingProccess()
 	{
@@ -96,6 +94,7 @@ namespace elc {
 		}
 }
 
+	/**************************serialiazion***************************/
 		void Elections::save(ostream& out) const
 		{
 			int len = strlen(date);
