@@ -7,6 +7,7 @@
 #include "DistrictsList.h"
 
 
+
 using namespace std;
 namespace elc
 {
@@ -59,6 +60,8 @@ namespace elc
 		const int getWinner() const;
 		const int& getWinner(const DistrictsList& D_list) const;
 
+		void save(ofstream& out) const;
+		void load(ifstream& in);
 
 	};
 

@@ -2,6 +2,8 @@
 #include"Votes.h"
 #include <vector>
 
+
+
 using namespace std;
 namespace elc
 {
@@ -403,15 +405,88 @@ namespace elc
 		return winnerID;
 
 	}
-	/************************* added *********************************/
+	/************************* Seralization *********************************/
 
+	void Votes::save(ofstream& out) const
+	{
+		bool temp = false;
+		out.write(rcastcc(&temp), sizeof(temp));
+		out.write(rcastcc(&numOfParties), sizeof(numOfParties));
+		out.write(rcastcc(&numOfDistricts), sizeof(numOfDistricts));
+		int flag1,flag2; // 0 if electors && votetable are null ptr, else flag ==1
 
+		if (electors == nullptr)
+			flag1 = 0;
+		else
+			flag1 = 1;
 
+		if (votes_table == nullptr)
+			flag2 = 0;
+		else
+			flag2 = 1;
 
+		out.write(rcastcc(&flag1), sizeof(flag1));
+		out.write(rcastcc(&flag2), sizeof(flag2));
 
+		if (flag1)
+		{
+			for (int i = 0; i < numOfDistricts; i++)
+			{
+				for (int j = 0; j < numOfParties; j++)
+				{
+					out.write(rcastcc(&electors[i][j]), sizeof(int));
+				}
+			}
+		}
 
+		if (flag2)
+		{
+			for (int i = 0; i < numOfDistricts; i++)
+			{
+				for (int j = 0; j < numOfParties; j++)
+				{
+					out.write(rcastcc(&votes_table[i][j]), sizeof(int));
+				}
+			}
+		}
+	}
 
+	void Votes::load(ifstream& in)
+	{
+		int flag1, flag2; // 0 if electors && votetable are null ptr, else flag ==1
+		
+		in.read(rcastc(&after_calcs), sizeof(after_calcs));
+		in.read(rcastc(&numOfParties), sizeof(numOfParties));
+		in.read(rcastc(&numOfDistricts), sizeof(numOfDistricts));
+		in.read(rcastc(&flag1), sizeof(flag1));
+		in.read(rcastc(&flag2), sizeof(flag2));
 
+		if (flag1 == 1)
+		{
+			electors = new int*[numOfDistricts];
 
+			for (int i = 0; i < numOfDistricts; i++)
+			{
+				electors[i] = new int[numOfParties];
+				for (int j = 0; j < numOfParties; j++)
+				{
+					in.read(rcastc(&electors[i][j]), sizeof(int));
+				}
+			}
+		}
+
+		if (flag2 ==1)
+		{
+			votes_table = new int* [numOfDistricts];
+			for (int i = 0; i < numOfDistricts; i++)
+			{
+				votes_table[i] = new int[numOfParties];
+				for (int j = 0; j < numOfParties; j++)
+				{
+					in.read(rcastc(&votes_table[i][j]), sizeof(int));
+				}
+			}
+		}
+	}
 
 }
