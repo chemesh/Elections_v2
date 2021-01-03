@@ -29,7 +29,6 @@ namespace elc
 		{
 			RepsList = new Representatives[reps_size];
 			RepsList[0].setPartyID(0);
-			//cout << "district ctor v1" << endl;
 		};
 
 		District(char* _name, int _numOfReps) : distID(0), totalReps(_numOfReps),
@@ -38,14 +37,11 @@ namespace elc
 			setDistName(_name);
 			RepsList = new Representatives[reps_size];
 			RepsList[0].setPartyID(0);
-			cout << "district ctor v2";
-			//numberOfDistrict++;
 		};
 
 		District(const District&);
 
 		virtual ~District() {
-			cout << "dist dtor" << endl;
 			if (RepsList != nullptr)
 				delete[] RepsList;
 			if (name != nullptr)

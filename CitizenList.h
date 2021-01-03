@@ -20,7 +20,7 @@ namespace elc {
 
 	public:
 		CitizensList(int _size = 1) : length(0), size(_size) { list = new Citizen[_size]; }
-		~CitizensList() { cout << "citizenlist dtor" << endl; delete[] list; }
+		~CitizensList() { delete[] list; }
 
 		bool setSize(const int&);
 		bool setLength(const int&);

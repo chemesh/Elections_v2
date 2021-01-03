@@ -23,7 +23,7 @@ namespace elc {
 	public:
 
 		Elections() : date(nullptr), roundType(0) {};
-		~Elections() { cout << "elec dtor" << endl; if (date != nullptr) delete[] date; };
+		~Elections() {if (date != nullptr) delete[] date; };
 		Elections(ifstream& in)
 		{
 			load(in);

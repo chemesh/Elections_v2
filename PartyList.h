@@ -17,7 +17,7 @@ namespace  elc {
 
 	public:
 		PartyList(int _size = 1) : length(0), size(_size) { list = new Party[_size]; }
-		~PartyList() { cout << "partylist dtor" << endl; delete[] list; }
+		~PartyList() { delete[] list; }
 
 		bool setSize(const int&);
 		bool setLength(const int&);

@@ -47,7 +47,6 @@ namespace elc {
 		void makeEmpty(void);
 		int getDistrict() const;
 		bool setdistrictId(int dist);
-		//bool setNumOfSenators(int num);
 		int getNumOfSenators() const { return numOfSenators; }
 
 		bool addSenator(const Citizen& rep); //addTotail
@@ -90,7 +89,6 @@ namespace elc {
 
 		~Party()
 		{
-			cout << "party dtot" << endl;
 			if (electors != nullptr)
 				delete[] electors;
 			if (partyName != nullptr)
@@ -109,7 +107,7 @@ namespace elc {
 		bool setElectors(Elector* e);
 		//
 		bool setParty(char* partyName, const Citizen& boss, int n, Elector* e, int el_size, int el_len);
-		bool setParty(char* partyName, const Citizen& boss, int numOfDistricts);
+		//bool setParty(char* partyName, const Citizen& boss, int numOfDistricts);
 		bool setParty(char* partyName, const Citizen& boss);
 		bool createElectorsList(int numOfDistricts);
 		bool addSenator(int numOfDistrict, const Citizen& rep);

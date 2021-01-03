@@ -8,10 +8,9 @@
 namespace elc {
 
 	Citizen::~Citizen()
-	{ //major bug, for now row 12 of districtlist.cpp is hiden...
-		std::cout << "citizen dtor:" << std::endl;
+	{ 
 		if (this->name != nullptr)
-			delete[] this->name; ///ERROR????
+			delete[] this->name; 
 	}
 
 	Citizen::Citizen(const Citizen& other)
@@ -28,7 +27,6 @@ namespace elc {
 	bool Citizen::setName(const char* _n)
 	{
 		if (_n == nullptr) 
-		//some bug when adding districts without citizens. this should prevent
 		{
 			name = nullptr;
 			return true;
@@ -104,7 +102,7 @@ namespace elc {
 		 in.read(rcastc(&hasVoted), sizeof(hasVoted));
 		 in.read(rcastc(&distID), sizeof(distID));
 
-		 dist = &(_list.getDistrict(distID)); //need to check for bugs
+		 dist = &(_list.getDistrict(distID));
 	 }
 }	
 
