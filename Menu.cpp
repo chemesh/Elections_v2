@@ -102,7 +102,6 @@ void mainMenu(Elections& e)
 		e.handleSimpleRound(distName, reps);
 	}
 
-
 	system("CLS");
 	while (!done)
 	{

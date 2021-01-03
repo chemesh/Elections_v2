@@ -31,9 +31,9 @@ namespace elc {
 		int getSize() const;
 		int getLength() const;
 
-		Citizen* const getCitizen(int id);
-		int getCitizenIndex(int id);
-		const Citizen* const getList();
+		Citizen* const getCitizen(int id) const;
+		int getCitizenIndex(int id) const;
+		const Citizen* const getList()const;
 
 		bool removeCitizen(const Citizen&);
 		bool isFull();

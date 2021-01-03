@@ -9,6 +9,8 @@
 using namespace std;
 namespace elc {
 
+	class CitizensList; //foward declaration
+
 	class Senator {
 	private:
 		Senator* next = nullptr;
@@ -56,7 +58,7 @@ namespace elc {
 		friend std::ostream& operator<<(std::ostream& out, Elector& other);
 
 		void save(ofstream& out) const;
-		void load(ifstream& in);
+		void load(ifstream& in, const CitizensList& _list);
 
 	};
 
@@ -147,7 +149,7 @@ namespace elc {
 		void operator=(const Party&);
 
 		void save(ofstream& out) const;
-		void load(ifstream& in);
+		void load(ifstream& in, const CitizensList& _list);
 
 	};
 

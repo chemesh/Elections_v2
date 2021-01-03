@@ -108,10 +108,9 @@ namespace elc {
 
 				districts.save(out);
 				citizens.save(out);
-				//parties.save(out);
-				
-
+				parties.save(out);
 		}
+
 		void Elections::load(ifstream& in)
 		{
 			int len;
@@ -124,12 +123,10 @@ namespace elc {
 
 			districts.load(in);
 			citizens.load(in, districts);
-			fixLoadOfDistricts();	//handle districts, assings proper citizens
-			parties.load(in);
-
-
-
+			fixLoadOfDistricts();								//handle districts, assings proper citizens
+			parties.load(in, citizens);
 		}
+
 		void Elections::fixLoadOfDistricts()
 		{
 			int idx = citizens.getLength();

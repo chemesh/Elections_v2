@@ -47,7 +47,7 @@ namespace elc
 		return this->length;
 	}
 
-	Citizen* const CitizensList::getCitizen(int id)
+	Citizen* const CitizensList::getCitizen(int id) const
 	{
 		int index = getCitizenIndex(id);
 		if (index != -1)
@@ -55,7 +55,7 @@ namespace elc
 		return nullptr;
 	}
 
-	int CitizensList::getCitizenIndex(int id)
+	int CitizensList::getCitizenIndex(int id) const
 	{
 		int start = 0, end = length;
 		int mid;
@@ -73,7 +73,7 @@ namespace elc
 		return -1;
 	}
 
-	const Citizen* const CitizensList::getList()
+	const Citizen* const CitizensList::getList()const
 	{
 		return list;
 	}
