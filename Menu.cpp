@@ -8,7 +8,7 @@ using namespace elc;
 
 
 void mainMenu(Elections& e);
-
+void inputDateAndElectionRound(Elections& e);
 void inputScreenPage1();
 void inputScreenPage2(Elections& e);
 
@@ -52,10 +52,10 @@ void inputScreenPage2(Elections& e)
 		<< " 6 - print ALL citizens." << endl
 		<< " 7 - print ALL parties." << endl
 		<< " 8 - VOTE!! (inputs will no longer be avilable)" << endl
-		<< " 9 - show results (not working)." << endl
-		<< " 10 - exit this menu" << endl
-		<< " 11 - Save Elections Round" << endl
-		<< " 12 - Load Elections Round" << endl
+		<< " 9 - show results." << endl
+		<< " 10 - exit this menu." << endl
+		<< " 11 - Save Elections Round." << endl
+		<< " 12 - Load Elections Round." << endl
 		<< "waiting for input..." << endl;
 }
 
@@ -65,28 +65,24 @@ void openingMenu(Elections& e)
 	inputScreenPage1();
 	cin >> ctrl;
 
-	while (ctrl < 1 || ctrl>10) //handle inputs
+	while (ctrl < 1 || ctrl>4) //handle inputs
 	{
 		std::cout << "wrong input!!" << endl;
 		cin >> ctrl;
 	}
 	switch (ctrl)
 	{
-	case 1: { system("CLS");  mainMenu(e); break; }
+	case 1: { system("CLS"); inputDateAndElectionRound(e); mainMenu(e); break; }
 	case 2: { load(&e) ; break; }
 	case 3: { std::cout << "Exit menu was chosen, byebye!" << endl; break; }
 	}
 }
 
-
-void mainMenu(Elections& e)
+void inputDateAndElectionRound(Elections& e)
 {
-	int ctrl;
-	bool doneVoting = false;
-	bool done = false; //flag for while loop
 	char* date = new char[MAX_SIZE];
 	int type = 0, reps = 0;
-	char distName[20] = "districtName";
+	char distName[20] = "system-District";
 
 	std::cout << " Welcome to Roy & Alon Election program!" << endl
 		<< "please enter the date fot this run in 'DD/MM/YYYY' format: " << endl;
@@ -102,6 +98,15 @@ void mainMenu(Elections& e)
 		std::cout << "Enter number of Representitives: "; cin >> reps;
 		e.handleSimpleRound(distName, reps);
 	}
+}
+
+void mainMenu(Elections& e)
+{
+	int ctrl;
+	bool doneVoting = false;
+	bool done = false; //flag for while loop
+	char* date = new char[MAX_SIZE];
+	
 
 	system("CLS");
 	while (!done)
@@ -181,6 +186,7 @@ void load(Elections* e)
 		e->printDistricts();
 		e->printParties();
 		mainMenu(*e);
+		infile.close();
 }
 
 
