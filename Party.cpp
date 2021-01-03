@@ -220,12 +220,13 @@ namespace elc {
 	void Party::save(ofstream& out) const
 	{
 		int len = strlen(partyName);
+		int bs = boss.getID();
 		out.write(rcastcc(&len), sizeof(len));	
 		out.write(partyName, len);
 
 		out.write(rcastcc(&partyNumber), sizeof(partyNumber));
 		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
-		out.write(rcastcc(boss.getID()), sizeof(boss.getID()));
+		out.write(rcastcc(&bs), sizeof(bs));
 		//!!need to add boss- save only ID
 
 		out.write(rcastcc(&elec_length), sizeof(elec_length));
@@ -259,21 +260,24 @@ namespace elc {
 	{
 		out.write(rcastcc(&numOfSenators), sizeof(numOfSenators));
 		Senator* temp = head;
-		Citizen* x;
-		while (head)
+
+		while (temp)
 		{
-		//	temp->candidate.save(out);
+			temp->candidate.save(out);
 			temp = temp->getNext();
 		}
 	}
 	void Elector::load(ifstream& in)
 	{
-		Senator temp;
+		Citizen* temp = new Citizen;
 		in.read(rcastc(&numOfSenators), sizeof(numOfSenators));
 		for (int i = 0; i < numOfSenators; i++)
 		{
-			in.read(rcastc(&temp.candidate), sizeof(temp.candidate));
+			//temp->load(in);
+			//in.read(rcastc(temp), sizeof(temp));
+			addSenator(*temp);
 		//	addSenator()
 		}
+
 	}
 }

@@ -136,7 +136,7 @@ void mainMenu(Elections& e)
 		case 9: {if (doneVoting) { results(e); }; break; }
 		case 10: { done = true; break; }
 		case 11: { save(e); break; }
-		case 12: { cout << "loading is complicated, not working yet..." << endl; break; }
+		case 12: { load(&e) ; break; }
 		}
 	}
 	system("CLS");

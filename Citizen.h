@@ -7,6 +7,7 @@
 namespace elc {
 
 	class District;
+	class DistrictsList;
 
 
 	class Citizen {
@@ -46,8 +47,8 @@ namespace elc {
 
 		void operator=(const Citizen&);
 
-		//void save(ofstream& out); const
-		//void load(ifstream& in);
+		void save(std::ofstream& out) const;
+		void load(std::ifstream& in, const DistrictsList& _list);
 	};
 };
 

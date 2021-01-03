@@ -84,6 +84,9 @@ namespace elc {
 		void setResults();
 
 		/**************************serialiazion***************************/
+		void fixLoadOfDistricts();
+
+
 		void save(ofstream& out) const;
 		void load(ifstream& in) ;
 

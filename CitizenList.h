@@ -4,6 +4,7 @@
 
 
 using namespace std;
+class DistrictsList;
 
 namespace elc {
 
@@ -52,6 +53,6 @@ namespace elc {
 
 		/**************************serialiazion***************************/
 		void save(ofstream& out) const;
-		void load(ifstream& in);
+		void load(ifstream& in, const DistrictsList& _list);
 	};
 }

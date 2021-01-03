@@ -98,6 +98,7 @@ namespace elc
 	void DistrictsList::save(ofstream& out) const
 	{
 		bool type = false;
+		out.write(rcastcc(&size), sizeof(size));
 		out.write(rcastcc(&length), sizeof(length));
 		for (int i = 0; i < length; ++i) 
 		{
@@ -110,8 +111,9 @@ namespace elc
 	void DistrictsList::load(ifstream& in)
 	{
 		bool type = false;
+		in.read(rcastc(&size), sizeof(size));
 		in.read(rcastc(&length), sizeof(length));
-		list = new District * [length];
+		list = new District * [size];
 		for (int i = 0; i < length; ++i)
 		{
 			in.read(rcastc(&type), sizeof(type));

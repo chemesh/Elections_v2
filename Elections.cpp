@@ -105,13 +105,12 @@ namespace elc {
 			out.write(rcastcc(&len), sizeof(len));                 //save len of date
 			out.write(date, len);                                  //save date
 			out.write(rcastcc(&roundType), sizeof(roundType));	   //save round type
-			//if (!roundType) //meaning election round is normal
-			//{
+
 				districts.save(out);
 				citizens.save(out);
-				parties.save(out);
+				//parties.save(out);
 				
-			//}
+
 		}
 		void Elections::load(ifstream& in)
 		{
@@ -124,12 +123,22 @@ namespace elc {
 			in.read(rcastc(&roundType), sizeof(roundType));
 
 			districts.load(in);
-			citizens.load(in);
+			citizens.load(in, districts);
+			fixLoadOfDistricts();	//handle districts, assings proper citizens
+			parties.load(in);
 
 
 
-
-
+		}
+		void Elections::fixLoadOfDistricts()
+		{
+			int idx = citizens.getLength();
+			int id;
+			for (int i = 0; i < idx; i++)
+			{
+				id = citizens.getList()[i].getDistrict().getDistID();
+				districts.setCitizenInDist(citizens.getList()[i], getDistrict(id));
+			}
 		}
 
 	}

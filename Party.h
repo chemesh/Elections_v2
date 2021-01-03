@@ -11,10 +11,10 @@ namespace elc {
 
 	class Senator {
 	private:
-		Senator* next;
+		Senator* next = nullptr;
 	public:
 		Citizen candidate;
-		Senator(){}
+		Senator(): next(nullptr){}
 		Senator(const Citizen& _rep) :candidate(_rep), next(nullptr) {};
 		~Senator() {};
 

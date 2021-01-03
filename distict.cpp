@@ -221,7 +221,8 @@ namespace elc
 		out.write(rcastcc(&voters_precentage), sizeof(voters_precentage));       // float - votes percentag
 		//citizen list will be updated later on load, no need to keep them here	 //
 
-		out.write(rcastcc(&reps_lentgh), sizeof(reps_lentgh));					 //int repsList length
+		out.write(rcastcc(&reps_size), sizeof(reps_size));
+		out.write(rcastcc(&reps_lentgh), sizeof(reps_lentgh));		//int repsList length
 		//reps conected list will be added later
 		//for (int i = 0; i < reps_lentgh; i++)									 //for each reps, save
 		//	RepsList[i].save(out);
@@ -238,8 +239,9 @@ namespace elc
 		in.read(rcastc(&totalReps), sizeof(totalReps));
 		in.read(rcastc(&voters_precentage), sizeof(voters_precentage));
 		//citizenlist...
+		in.read(rcastc(&reps_size), sizeof(reps_size));
 		in.read(rcastc(&reps_lentgh), sizeof(reps_lentgh));
-		RepsList = new Representatives[reps_lentgh];
+		RepsList = new Representatives[reps_size];
 		//for (int i = 0; i < reps_lentgh; i++)									 
 		//	RepsList[i].load(in);
 	}

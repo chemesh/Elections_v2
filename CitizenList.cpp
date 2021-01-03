@@ -156,20 +156,23 @@ namespace elc
 	/**************************serialiazion***************************/
 	void CitizensList::save(ofstream& out) const
 	{
+
+		out.write(rcastcc(&size), sizeof(size));
 		out.write(rcastcc(&length), sizeof(length));
 		for (int i = 0; i < length; ++i)
 		{
-		//	list[i].save(out);
+			list[i].save(out);
 		}
 	}
 
-	void CitizensList::load(ifstream& in)
+	void CitizensList::load(ifstream& in, const DistrictsList& _list)
 	{
+		in.read(rcastc(&size), sizeof(size));
 		in.read(rcastc(&length), sizeof(length));
-		list = new Citizen[length];
+		list = new Citizen[size];
 		for (int i = 0; i < length; i++)
 		{
-		//	list[i].load(in);
+			list[i].load(in, _list);
 		}
 	}
 }
