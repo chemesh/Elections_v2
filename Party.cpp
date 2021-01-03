@@ -227,7 +227,6 @@ namespace elc {
 		out.write(rcastcc(&partyNumber), sizeof(partyNumber));
 		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
 		out.write(rcastcc(&bs), sizeof(bs));
-		//!!need to add boss- save only ID
 
 		out.write(rcastcc(&elec_size), sizeof(elec_size));
 		out.write(rcastcc(&elec_length), sizeof(elec_length));
