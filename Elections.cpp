@@ -99,11 +99,43 @@ namespace elc {
 }
 
 	/**************************serialiazion***************************/
-		void Elections::save(ostream& out) const
+		void Elections::save(ofstream& out) const
 		{
-			int len = strlen(date);
-			out.write(rcastcc(&len), sizeof(len));
-			out.write(rcastc(date), sizeof(len));
-			parties.save(out);
+			int len = strlen(date); 
+			out.write(rcastcc(&len), sizeof(len));                 //save len of date
+			out.write(date, len);                                  //save date
+			out.write(rcastcc(&roundType), sizeof(roundType));	   //save round type
+
+				districts.save(out);
+				citizens.save(out);
+				parties.save(out);
 		}
+
+		void Elections::load(ifstream& in)
+		{
+			int len;
+			in.read(rcastc(&len), sizeof(len));
+			date = new char[len + 1];
+
+			in.read(date, len);
+			date[len] = '\0';
+			in.read(rcastc(&roundType), sizeof(roundType));
+
+			districts.load(in);
+			citizens.load(in, districts);
+			fixLoadOfDistricts();								//handle districts, assings proper citizens
+			parties.load(in, citizens);
+		}
+
+		void Elections::fixLoadOfDistricts()
+		{
+			int idx = citizens.getLength();
+			int id;
+			for (int i = 0; i < idx; i++)
+			{
+				id = citizens.getList()[i].getDistrict().getDistID();
+				districts.setCitizenInDist(citizens.getList()[i], getDistrict(id));
+			}
+		}
+
 	}

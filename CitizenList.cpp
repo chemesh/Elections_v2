@@ -9,7 +9,7 @@ namespace elc
 		for (int i = 0; i < size; i++)
 			temp[i] = list[i];
 		this->size = _size;
-		//delete[] list;
+		//delete[] list; 
 		list = temp;
 		return true;
 	}
@@ -34,13 +34,6 @@ namespace elc
 	bool CitizensList::setCitizen(const Citizen& citizen)
 	{
 		setCitizen(citizen.getName(), citizen.getID(), citizen.getYOB(), citizen.getDistrict());
-
-		//if (isFull())
-		//{
-		//	setSize(size * 2);
-		//}
-		//list[length] = citizen;
-		//setLength(length + 1);
 		return true;
 	}
 
@@ -54,7 +47,7 @@ namespace elc
 		return this->length;
 	}
 
-	Citizen* const CitizensList::getCitizen(int id)
+	Citizen* const CitizensList::getCitizen(int id) const
 	{
 		int index = getCitizenIndex(id);
 		if (index != -1)
@@ -62,7 +55,7 @@ namespace elc
 		return nullptr;
 	}
 
-	int CitizensList::getCitizenIndex(int id)
+	int CitizensList::getCitizenIndex(int id) const
 	{
 		int start = 0, end = length;
 		int mid;
@@ -80,7 +73,7 @@ namespace elc
 		return -1;
 	}
 
-	const Citizen* const CitizensList::getList()
+	const Citizen* const CitizensList::getList()const
 	{
 		return list;
 	}
@@ -160,5 +153,26 @@ namespace elc
 
 	}
 
+	/**************************serialiazion***************************/
+	void CitizensList::save(ofstream& out) const
+	{
 
+		out.write(rcastcc(&size), sizeof(size));
+		out.write(rcastcc(&length), sizeof(length));
+		for (int i = 0; i < length; ++i)
+		{
+			list[i].save(out);
+		}
+	}
+
+	void CitizensList::load(ifstream& in, const DistrictsList& _list)
+	{
+		in.read(rcastc(&size), sizeof(size));
+		in.read(rcastc(&length), sizeof(length));
+		list = new Citizen[size];
+		for (int i = 0; i < length; i++)
+		{
+			list[i].load(in, _list);
+		}
+	}
 }

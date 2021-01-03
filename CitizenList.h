@@ -4,6 +4,7 @@
 
 
 using namespace std;
+class DistrictsList;
 
 namespace elc {
 
@@ -30,23 +31,14 @@ namespace elc {
 		int getSize() const;
 		int getLength() const;
 
-		Citizen* const getCitizen(int id);
-		int getCitizenIndex(int id);
-		const Citizen* const getList();
+		Citizen* const getCitizen(int id) const;
+		int getCitizenIndex(int id) const;
+		const Citizen* const getList()const;
 
 		bool removeCitizen(const Citizen&);
 		bool isFull();
 
 		void CitizenSort() { mergeSort(list, 0, length); }
-
-
-		//void printList()
-		//{
-		//	for (int i = 0; i < length; i++)
-		//	{
-		//		cout << list[i] << '\n';
-		//	}
-		//}
 
 		void operator=(const CitizensList&);
 
@@ -59,5 +51,8 @@ namespace elc {
 			return out;
 		}
 
+		/**************************serialiazion***************************/
+		void save(ofstream& out) const;
+		void load(ifstream& in, const DistrictsList& _list);
 	};
 }

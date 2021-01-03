@@ -13,6 +13,7 @@ void inputScreenPage1();
 void inputScreenPage2(Elections& e);
 
 void save(Elections& e);
+void load(Elections* e);
 
 void addDistric(Elections& e);
 void addCitizen(Elections& e);
@@ -22,6 +23,8 @@ void addPartyCandidates(Elections& e);
 void results(Elections& e);
 void openVotingMenu(Elections& e, bool& doneVoting);
 bool handleErrors(int ctrl, Elections& e);
+
+void load(Elections* e);
 
 void inputScreenPage1()
 {
@@ -69,7 +72,7 @@ void openingMenu(Elections& e)
 	switch (ctrl)
 	{
 	case 1: { system("CLS");  mainMenu(e); break; }
-	case 2: { std::cout << "loading file.." << endl; break; }
+	case 2: { load(&e) ; break; }
 	case 3: { std::cout << "Exit menu was chosen, byebye!" << endl; break; }
 	}
 }
@@ -98,7 +101,6 @@ void mainMenu(Elections& e)
 		std::cout << "Enter number of Representitives: "; cin >> reps;
 		e.handleSimpleRound(distName, reps);
 	}
-
 
 	system("CLS");
 	while (!done)
@@ -133,7 +135,7 @@ void mainMenu(Elections& e)
 		case 9: {if (doneVoting) { results(e); }; break; }
 		case 10: { done = true; break; }
 		case 11: { save(e); break; }
-		case 12: { cout << "loading is complicated, not working yet..." << endl; break; }
+		case 12: { load(&e) ; break; }
 		}
 	}
 	system("CLS");
@@ -157,6 +159,29 @@ void save(Elections& e)
 	cout << "data was saved to file: " << name << endl;
 	outfile.close();
 }
+
+
+void load(Elections* e)
+{
+	char name[MAX_SIZE];
+	std::cout << "enter name of file" << endl;
+	cin.ignore();
+	cin.getline(name, MAX_SIZE);
+
+	ifstream infile(name, ios::binary);
+		if (!infile)
+		{
+			cout << "error opening file for read" << endl;
+			exit(-1);
+		}
+		//delete e somehow>
+		e = new Elections(infile);
+
+		e->printDistricts();
+		e->printParties();
+		mainMenu(*e);
+}
+
 
 void addDistric(Elections& e)
 {
@@ -296,7 +321,6 @@ void openVotingMenu(Elections& e, bool& doneVoting)
 	doneVoting = true;
 	return;
 }
-
 
 void results(Elections& e)
 {

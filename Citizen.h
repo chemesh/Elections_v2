@@ -1,9 +1,13 @@
 #pragma once
-#include <iostream>
+#include <fstream>
+
+#define rcastcc reinterpret_cast<const char*>
+#define rcastc reinterpret_cast<char*>
 
 namespace elc {
 
 	class District;
+	class DistrictsList;
 
 
 	class Citizen {
@@ -41,11 +45,10 @@ namespace elc {
 
 		friend std::ostream& operator<<(std::ostream& out, const Citizen& other);
 
-
 		void operator=(const Citizen&);
+
+		void save(std::ofstream& out) const;
+		void load(std::ifstream& in, const DistrictsList& _list);
 	};
-
-
-
 };
 

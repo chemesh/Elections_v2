@@ -6,6 +6,8 @@ using namespace std;
 
 namespace  elc {
 
+
+
 	class PartyList
 	{
 	private:
@@ -49,7 +51,7 @@ namespace  elc {
 			}
 			return out;
 		}
-		void save(ostream& out) const;
-		void load(istream& in);
+		void save(ofstream& out) const;
+		void load(ifstream& in, const CitizensList& _list);
 	};
 }

@@ -99,8 +99,11 @@ namespace elc
 		}
 
 		void operator=(const District&);
-	};
+		bool isDivided();
 
+		void save(ofstream& out) const;
+		void load(ifstream& in);
+	};
 
 
 
@@ -114,12 +117,11 @@ namespace elc
 		Divided(const Divided& o) : District(o){}
 		virtual ~Divided() {};
 
-
-
 		const Divided& operator=(const Divided& o)
 		{
 			District::operator=(o);
 			return *this;
 		}
+
 	};
 }

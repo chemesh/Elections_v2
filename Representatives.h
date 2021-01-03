@@ -15,7 +15,8 @@ namespace elc {
 
 	public:
 
-		Representatives() :PartyID(0), head(nullptr), tail(nullptr), NumOfReps(0) {}
+		Representatives() : Representatives(0){}
+		Representatives(const int& num) : PartyID(0), head(nullptr), tail(nullptr), NumOfReps(num) {}
 		~Representatives()	{ makeEmpty(); 	}
 
 		void makeEmpty(void);
@@ -27,9 +28,11 @@ namespace elc {
 		bool addSenator(const Senator&);
 
 		void printsenatorsList(int num) const;
+
+
 	};
 
 
 
-
+	
 }

@@ -86,4 +86,47 @@ namespace elc
 		}
 	}
 
+//	bool DistrictsList::isDivided(int i)
+//	{
+//		if (typeid(*list[i]) == typeid(Divided))
+//			return true;
+//		else
+//			return false;
+//	}
+
+
+	void DistrictsList::save(ofstream& out) const
+	{
+		bool type = false;
+		out.write(rcastcc(&size), sizeof(size));
+		out.write(rcastcc(&length), sizeof(length));
+		for (int i = 0; i < length; ++i) 
+		{
+			type = list[i]->isDivided();
+			out.write(rcastcc(&type), sizeof(type));
+			list[i]->save(out);
+		}
+	}
+
+	void DistrictsList::load(ifstream& in)
+	{
+		bool type = false;
+		in.read(rcastc(&size), sizeof(size));
+		in.read(rcastc(&length), sizeof(length));
+		list = new District * [size];
+		for (int i = 0; i < length; ++i)
+		{
+			in.read(rcastc(&type), sizeof(type));
+			if (type) // ==1 meand divided
+			{
+				list[i] = new Divided();
+			}
+			else
+			{
+				list[i] = new District();
+			}
+			list[i]->load(in);
+		}
+
+	}
 }
