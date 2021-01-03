@@ -48,6 +48,7 @@ namespace elc {
 		District& getDistrict(int distID, bool flag) { return districts.getDistrict(distID, flag); }
 
 		const DistrictsList& getDistList() const { return districts; }
+		const CitizensList& getCitizensList() const{ return citizens; }
     
 		bool setDate(char* date);
 		bool setRoundType(int _type);
