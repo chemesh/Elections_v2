@@ -37,7 +37,6 @@ namespace elc {
 		return true;
 	}
 
-	//added
 	bool Party::setElectorsSize(const int& _size)
 	{
 		Elector* temp = new Elector[_size];
@@ -60,7 +59,6 @@ namespace elc {
 		this->elec_length = len;
 		return true;
 	}
-	///
 
 	bool Party::setPartyNumber(int n)
 	{
@@ -68,7 +66,6 @@ namespace elc {
 		return true;
 	}
 
-	//needed?
 	bool Party::setParty(char* partyName, const Citizen& boss, int n, Elector* e, int size, int len)
 	{
 		return setPartyName(partyName) && setBoss(boss)
@@ -170,6 +167,27 @@ namespace elc {
 		}
 	}
 
+	void Party::printElectors()
+	{
+		cout << endl;
+		for (int i = 0; i < elec_length; i++)
+			cout << electors[i];
+	}
+
+	void Party::printNameAndId() const 
+	{
+		std::cout << "(" << this->partyNumber << " - " << this->partyName << ")";
+	}
+
+	std::ostream& operator<<(std::ostream& out, Party& other)
+	{
+		cout
+			<< "Party name: " << other.partyName << " | "
+			<< "party number: " << other.partyNumber << " | "
+			<< "Party boss-> " << other.boss;
+		other.printElectors();
+		return out;
+	}
 	std::ostream& operator<<(std::ostream& out, Elector& other)
 	{
 		cout
@@ -177,6 +195,7 @@ namespace elc {
 		other.printElector();
 		return out;
 	}
+
 
 	int Party::getElectorsSize() const
 	{
@@ -199,11 +218,8 @@ namespace elc {
 			setElectorsSize(elec_size * 2);
 		electors[elec_length].setdistrictId(distID - 1); ///
 		elec_length++;
-		//electors[elec_length].setNumOfSenators(numOfReps);
 		return true;
 	}
-
-	///
 
 	const Senator& Party::getSenatorInDist(int distID, int place)
 	{
@@ -227,7 +243,6 @@ namespace elc {
 		out.write(rcastcc(&partyNumber), sizeof(partyNumber));
 		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
 		out.write(rcastcc(&bs), sizeof(bs));
-		//!!need to add boss- save only ID
 
 		out.write(rcastcc(&elec_size), sizeof(elec_size));
 		out.write(rcastcc(&elec_length), sizeof(elec_length));

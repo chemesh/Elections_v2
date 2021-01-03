@@ -3,9 +3,6 @@
 #include <iostream>
 #include "Citizen.h"
 
-
-//party - candidate, list of electors,
-//-add citizen as re presentitive(CIN of id, num of party, name of district)
 using namespace std;
 namespace elc {
 
@@ -27,6 +24,9 @@ namespace elc {
 		bool setNext(Senator* next);
 	};
 
+
+	//========================================================================================================
+	//========================================================================================================
 	//each class of elector, represent the list of representives of the party, for the district.
 	class Elector {
 
@@ -39,10 +39,6 @@ namespace elc {
 	public:
 
 		Elector() : districtId(NULL), head(nullptr), tail(nullptr), numOfSenators(0) {};
-		//~Elector() 
-		//{
-		//	makeEmpty();
-		//};
 
 		void makeEmpty(void);
 		int getDistrict() const;
@@ -61,6 +57,9 @@ namespace elc {
 
 	};
 
+
+	//========================================================================================================
+	//========================================================================================================
 	class Party {
 	private:
 		int partyNumber;
@@ -103,11 +102,11 @@ namespace elc {
 		bool setPartyName(char* _n);
 		bool setBoss(const Citizen& boss);
 		bool setPartyNumber(int n);
-		//why?
+		
 		bool setElectors(Elector* e);
-		//
+		
 		bool setParty(char* partyName, const Citizen& boss, int n, Elector* e, int el_size, int el_len);
-		//bool setParty(char* partyName, const Citizen& boss, int numOfDistricts);
+
 		bool setParty(char* partyName, const Citizen& boss);
 		bool createElectorsList(int numOfDistricts);
 		bool addSenator(int numOfDistrict, const Citizen& rep);
@@ -123,26 +122,11 @@ namespace elc {
 		bool isElectorsFull(void) { return (elec_size == elec_length); }
 		bool AddNewDistElector(int distID);
 
-		void printElectors()
-		{
-			cout << endl;
-			for (int i = 0; i < elec_length; i++)
-				cout << electors[i];
-		}
-		friend std::ostream& operator<<(std::ostream& out, Party& other)
-		{
-			cout
-				<< "Party name: " << other.partyName << " | "
-				<< "party number: " << other.partyNumber << " | "
-				<< "Party boss-> " << other.boss;
-			other.printElectors();
-			return out;
-		}
+		void printElectors();
 
-		void printNameAndId() const //new function
-		{
-			std::cout << "(" << this->partyNumber << " - " << this->partyName << ")";
-		}
+		friend std::ostream& operator<<(std::ostream& out, Party& other);
+
+		void printNameAndId() const;
 
 		void operator=(const Party&);
 

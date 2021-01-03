@@ -7,13 +7,13 @@ using namespace elc;
 #define MAX_SIZE 50
 
 
-void mainMenu(Elections& e);
-
+void mainMenu(Elections& e, bool& doneVoting);
+void inputDateAndElectionRound(Elections& e);
 void inputScreenPage1();
 void inputScreenPage2(Elections& e);
 
-void save(Elections& e);
-void load(Elections* e);
+void save(Elections& e,bool& doneVoting);
+void load(Elections* e,bool& doneVoting);
 
 void addDistric(Elections& e);
 void addCitizen(Elections& e);
@@ -24,8 +24,6 @@ void results(Elections& e);
 void simpleResults(Elections& e);
 void openVotingMenu(Elections& e, bool& doneVoting);
 bool handleErrors(int ctrl, Elections& e);
-
-void load(Elections* e);
 
 void inputScreenPage1()
 {
@@ -52,41 +50,38 @@ void inputScreenPage2(Elections& e)
 		<< " 6 - print ALL citizens." << endl
 		<< " 7 - print ALL parties." << endl
 		<< " 8 - VOTE!! (inputs will no longer be avilable)" << endl
-		<< " 9 - show results (not working)." << endl
-		<< " 10 - exit this menu" << endl
-		<< " 11 - Save Elections Round" << endl
-		<< " 12 - Load Elections Round" << endl
+		<< " 9 - show results." << endl
+		<< " 10 - exit this menu." << endl
+		<< " 11 - Save Elections Round." << endl
+		<< " 12 - Load Elections Round." << endl
 		<< "waiting for input..." << endl;
 }
 
 void openingMenu(Elections& e)
 {
 	int ctrl;
+	bool doneVoting = false;
 	inputScreenPage1();
 	cin >> ctrl;
 
-	while (ctrl < 1 || ctrl>10) //handle inputs
+	while (ctrl < 1 || ctrl>4) //handle inputs
 	{
 		std::cout << "wrong input!!" << endl;
 		cin >> ctrl;
 	}
 	switch (ctrl)
 	{
-	case 1: { system("CLS");  mainMenu(e); break; }
-	case 2: { load(&e) ; break; }
+	case 1: { system("CLS"); inputDateAndElectionRound(e); mainMenu(e,doneVoting); break; }
+	case 2: { load(&e, doneVoting) ; break; }
 	case 3: { std::cout << "Exit menu was chosen, byebye!" << endl; break; }
 	}
 }
 
-
-void mainMenu(Elections& e)
+void inputDateAndElectionRound(Elections& e)
 {
-	int ctrl;
-	bool doneVoting = false;
-	bool done = false; //flag for while loop
 	char* date = new char[MAX_SIZE];
 	int type = 0, reps = 0;
-	char distName[20] = "districtName";
+	char distName[20] = "system-District";
 
 	std::cout << " Welcome to Roy & Alon Election program!" << endl
 		<< "please enter the date fot this run in 'DD/MM/YYYY' format: " << endl;
@@ -102,6 +97,14 @@ void mainMenu(Elections& e)
 		std::cout << "Enter number of Representitives: "; cin >> reps;
 		e.handleSimpleRound(distName, reps);
 	}
+}
+
+void mainMenu(Elections& e, bool& doneVoting)
+{
+	int ctrl;
+	bool done = false; //flag for while loop
+	char* date = new char[MAX_SIZE];
+	
 
 	system("CLS");
 	while (!done)
@@ -135,8 +138,8 @@ void mainMenu(Elections& e)
 		case 8: {if (!doneVoting) openVotingMenu(e, doneVoting); break; }
 		case 9: {if (doneVoting) { results(e); }; break; }
 		case 10: { done = true; break; }
-		case 11: { save(e); break; }
-		case 12: { load(&e) ; break; }
+		case 11: { save(e, doneVoting); break; }
+		case 12: { load(&e, doneVoting) ; break; }
 		}
 	}
 	system("CLS");
@@ -144,7 +147,7 @@ void mainMenu(Elections& e)
 }
 
 
-void save(Elections& e)
+void save(Elections& e, bool& doneVoting)
 {
 	char name[MAX_SIZE];
 	std::cout << "enter name of file" << endl;
@@ -156,13 +159,14 @@ void save(Elections& e)
 		cout << "error opening file for write" << endl;
 		exit(-1);
 	}
+	outfile.write(rcastcc(&doneVoting), sizeof(doneVoting));
 	e.save(outfile);
 	cout << "data was saved to file: " << name << endl;
 	outfile.close();
 }
 
 
-void load(Elections* e)
+void load(Elections* e, bool& doneVoting )
 {
 	char name[MAX_SIZE];
 	std::cout << "enter name of file" << endl;
@@ -175,12 +179,10 @@ void load(Elections* e)
 			cout << "error opening file for read" << endl;
 			exit(-1);
 		}
-		//delete e somehow>
+		infile.read(rcastc(&doneVoting), sizeof(doneVoting));
 		e = new Elections(infile);
-
-		e->printDistricts();
-		e->printParties();
-		mainMenu(*e);
+		mainMenu(*e, doneVoting);
+		infile.close();
 }
 
 

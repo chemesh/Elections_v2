@@ -123,6 +123,8 @@ namespace elc {
 				districts.save(out);
 				citizens.save(out);
 				parties.save(out);
+				voting.save(out);
+
 		}
 
 		void Elections::load(ifstream& in)
@@ -139,6 +141,7 @@ namespace elc {
 			citizens.load(in, districts);
 			fixLoadOfDistricts();								//handle districts, assings proper citizens
 			parties.load(in, citizens);
+			voting.load(in);
 		}
 
 		void Elections::fixLoadOfDistricts()
