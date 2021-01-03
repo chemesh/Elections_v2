@@ -282,6 +282,7 @@ namespace elc {
 			temp = (_list.getCitizen(citzId));
 			Elector::addSenator(*temp);
 			numOfSenators--; //NOTICE! addSenator() increases numOfSenators, not needed while loading form file.
+
 		}
 
 	}
