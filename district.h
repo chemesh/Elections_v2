@@ -20,8 +20,6 @@ namespace elc
 		Representatives* RepsList;
 		int reps_size;
 		int reps_lentgh;
-		//need array hnadling
-		//static int numberOfDistrict;
 
 
 	public:

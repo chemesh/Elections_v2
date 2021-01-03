@@ -44,12 +44,16 @@ namespace elc
 		const int getTotalPartyVotes(const int& partyID)const;
 		const int getTotalVotesInDistrict(const int& DistID)const;
 		const int getPartyVotesInDist(const int& PartyID, const int& distID)const;
-		const float getPartyVotesPrecentageInDist(const int& PartyID, const int& distID)const;
+		const float& getPartyVotesPrecentageInDist(const int& PartyID, const int& distID)const;
+		const float& getTotalVotesPrecentage(const CitizensList& list)const;
+		const float& getDistVotesPrecantage(const District& dist)const;
+		int** getPartiesWinningOrder()const;
 
 		//calculates the number of electors won for each Party in the district,
 		//then adds the newly chosen senators under their party ID to the district representatives.
 		void setElectorsInDist(PartyList& parties, District& dist);
 		const int getElectorsforPartyInDist(const int& partyID, const int& distID) const;
+		const int getTotalPartyElectors(const int& partyID)const;
 		const int getWinnerIDInDist(const int& distID) const;
 		const int getWinnerIDInDist(District* const dist) const;
 		const int getWinner() const;

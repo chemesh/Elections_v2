@@ -1,5 +1,6 @@
 
 #include"Votes.h"
+#include <vector>
 
 using namespace std;
 namespace elc
@@ -136,9 +137,75 @@ namespace elc
 		return votes_table[distID][PartyID];
 	}
 
-	const float Votes::getPartyVotesPrecentageInDist(const int& PartyID, const int& distID) const
+	const float& Votes::getPartyVotesPrecentageInDist(const int& PartyID, const int& distID) const
 	{
 		return ((100 * ((float)getPartyVotesInDist(PartyID, distID)) / getTotalVotesInDistrict(distID)));
+	}
+
+	const float& Votes::getTotalVotesPrecentage(const CitizensList& list)const
+	{
+		int i, citizens = list.getLength();
+		float totalVotes = 0;
+
+		for (i = 0; i < numOfDistricts; i++)
+		{
+			totalVotes += getTotalVotesInDistrict(i);
+		}
+
+		return (100 * (totalVotes / citizens));
+
+	}
+
+	const float& Votes::getDistVotesPrecantage(const District& dist)const
+	{
+		int i, citizens = dist.GetDistCitizens().getLength();
+		float votes = getTotalVotesInDistrict(dist.getDistID());
+
+		return (100 * (votes / citizens));
+	}
+
+	int** Votes::getPartiesWinningOrder()const
+	{
+		//double array keeping party id on 0, number of votes on 1, and number of electors in 2 
+		int** order = new int*[numOfParties];
+		int i, j, party_temp, votes_temp, electors_temp;
+
+		//creating order array
+		for (i = 0; i < numOfParties; i++)
+			order[i] = new int[3];
+
+		//initializing order array
+		for (i = 0; i < numOfParties; i++)
+		{
+			order[i][0] = i;
+			order[i][1] = getTotalPartyVotes(i);
+			order[i][2] = getTotalPartyElectors(i);
+		}
+
+		//BubbleSort by electors
+		for (i=0;i<numOfParties-1;i++)
+			for (j = 0; j < numOfParties-i-1; j++)
+			{
+				if (order[j][2] > order[j+1][2])
+				{
+					//swap(i,j)
+					party_temp = order[j][0];
+					votes_temp = order[j][1];
+					electors_temp = order[j][2];
+
+					order[j][0] = order[j+1][0];
+					order[j][1] = order[j+1][1];
+					order[j][2] = order[j+1][2];
+
+					order[j+1][0] = party_temp;
+					order[j+1][1] = votes_temp;
+					order[j+1][2] = electors_temp;
+				}
+
+			}
+		return order;
+
+
 	}
 
 	void Votes::setElectorsInDist(PartyList& parties, District& dist)
@@ -197,6 +264,17 @@ namespace elc
 	const int Votes::getElectorsforPartyInDist(const int& partyID, const int& distID) const
 	{
 		return electors[distID][partyID];
+	}
+
+	const int Votes::getTotalPartyElectors(const int& partyID)const
+	{
+		int i, res=0;
+		for (i = 0; i < numOfDistricts; i++)
+		{
+			res += electors[i][partyID];
+		}
+		return res;
+
 	}
 
 	const int Votes::getWinnerIDInDist(const int& distID) const

@@ -56,9 +56,23 @@ namespace elc {
 	}
 
 
-	void Elections::printCitizens() { cout << citizens; }
-	void Elections::printParties() { cout << parties; }
-	void Elections::printDistricts() { cout << districts; }
+	void Elections::printCitizens() 
+	{
+		cout << citizens; 
+	}
+	void Elections::printParties() 
+	{ 
+		cout << parties; 
+	}
+	void Elections::printDistricts() 
+	{ 
+		if (roundType)
+		{
+			cout << "No distrricts available" << endl;
+		}
+		else
+			cout << districts; 
+	}
 	void Elections::printPartiesNameAndID()
 	{
 		parties.PrintNameAndId();
