@@ -7,13 +7,6 @@
 
 namespace elc {
 
-	//removed because string hanndles dtor
-//	Citizen::~Citizen()
-//	{ 
-//		if (this->name != nullptr)
-//			delete[] this->name; 
-//	}
-
 	Citizen::Citizen(const Citizen& other)
 	{
 		setCitizen(other.name, other.ID, *other.dist, other.YOB);
@@ -24,23 +17,6 @@ namespace elc {
 
 	const District& Citizen::getDistrict() const { return *dist; }
 	int Citizen::getYOB() const { return YOB; }
-
-	/*bool Citizen::setName(const char* _n)
-	{
-		if (_n == nullptr) 
-		{
-			name = nullptr;
-			return true;
-		}
-
-		if (name != nullptr)
-			delete[] name;
-
-		int len = strlen(_n);
-		this->name = new char[len + 1];
-		memcpy(this->name, _n, len + 1);
-		return true;
-	}*/
 
 	bool Citizen::setID(int id)
 	{
@@ -66,7 +42,6 @@ namespace elc {
 	void Citizen::operator=(const Citizen& o)
 	{
 		setCitizen(o.name, o.ID, *o.dist, o.YOB);
-
 	}
 
 	 std::ostream& operator<<(std::ostream& out, const Citizen& other)

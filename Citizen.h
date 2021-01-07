@@ -36,7 +36,6 @@ namespace elc {
 		int getYOB() const;
 		const District& getDistrict()const;
 		bool getVote() const { return hasVoted; }
-		//bool setName(const char* n);
 		bool setName(const std::string n) { name = n; return true; };
 		bool setID(int id);
 		bool setDistrict(const District& _dist);
