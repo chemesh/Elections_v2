@@ -10,5 +10,6 @@ void openingMenu(Elections& e);
 int main()
 {
 	Elections e;
+	cout << "hello" << endl;
 	openingMenu(e);
 }

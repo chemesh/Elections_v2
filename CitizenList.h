@@ -25,7 +25,7 @@ namespace elc {
 		bool setSize(const int&);
 		bool setLength(const int&);
 		bool setCitizen(const Citizen&);
-		bool setCitizen(const char* name, int id, int yob, const District& district);
+		bool setCitizen(const string name, int id, int yob, const District& district);
 
 
 		int getSize() const;

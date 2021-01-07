@@ -7,24 +7,25 @@
 
 namespace elc {
 
-	Citizen::~Citizen()
-	{ 
-		if (this->name != nullptr)
-			delete[] this->name; 
-	}
+	//removed because string hanndles dtor
+//	Citizen::~Citizen()
+//	{ 
+//		if (this->name != nullptr)
+//			delete[] this->name; 
+//	}
 
 	Citizen::Citizen(const Citizen& other)
 	{
 		setCitizen(other.name, other.ID, *other.dist, other.YOB);
 	}
 
-	const char* Citizen::getName() const { return name; }
+	std::string Citizen::getName() const { return name; }
 	int Citizen::getID() const { return ID; }
 
 	const District& Citizen::getDistrict() const { return *dist; }
 	int Citizen::getYOB() const { return YOB; }
 
-	bool Citizen::setName(const char* _n)
+	/*bool Citizen::setName(const char* _n)
 	{
 		if (_n == nullptr) 
 		{
@@ -39,7 +40,8 @@ namespace elc {
 		this->name = new char[len + 1];
 		memcpy(this->name, _n, len + 1);
 		return true;
-	}
+	}*/
+
 	bool Citizen::setID(int id)
 	{
 		this->ID = id;
@@ -55,7 +57,7 @@ namespace elc {
 		this->YOB = year;
 		return true;
 	}
-	bool Citizen::setCitizen(const char* name, int id, const District& dist, int year)
+	bool Citizen::setCitizen(const std::string name, int id, const District& dist, int year)
 	{
 		return setName(name) && setID(id) &&
 			setDistrict(dist) && setYOB(year);
@@ -81,9 +83,9 @@ namespace elc {
 	 void Citizen::save(std::ofstream& out) const
 	 {
 		 int distID = dist->getDistID();
-		 int len = strlen(name);
+		 int len = name.size();
 		 out.write(rcastcc(&len), sizeof(len));									 // name length
-		 out.write(name, len);												// len+1 for the '\0'
+		 out.write(rcastcc(name.c_str()), len);												// len+1 for the '\0'
 		 out.write(rcastcc(&ID), sizeof(ID));									 // int ID
 		 out.write(rcastcc(&YOB), sizeof(YOB));									 // int - yob
 		 out.write(rcastcc(&hasVoted), sizeof(hasVoted));	
@@ -94,9 +96,11 @@ namespace elc {
 	 {
 		 int len, distID;
 		 in.read(rcastc(&len), sizeof(len));
-		 name = new char[len + 1];
-		 in.read(name, len);
-		 name[len] = '\0';
+		 char* _name = new char[len + 1];
+		 in.read(_name, len);
+		 _name[len] = '\0';  //notice, we assign string to char*
+		 name = _name;		 //then, assign it to the string name
+		 delete[] _name; 	 //at last, delete the temporary char* 
 		 in.read(rcastc(&ID), sizeof(ID));
 		 in.read(rcastc(&YOB), sizeof(YOB));
 		 in.read(rcastc(&hasVoted), sizeof(hasVoted));

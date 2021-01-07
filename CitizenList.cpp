@@ -20,7 +20,7 @@ namespace elc
 		return true;
 	}
 
-	bool CitizensList::setCitizen(const char* name, int id, int yob, const District& district)
+	bool CitizensList::setCitizen(const string name, int id, int yob, const District& district)
 	{
 		if (isFull())
 		{
