@@ -63,7 +63,7 @@ namespace elc {
 	class Party {
 	private:
 		int partyNumber;
-		char* partyName;
+		string partyName;
 		Citizen boss; //citizen&
 		Elector* electors; //each node of the arrays represents one district, with a list of the party electors
 		int elec_size;
@@ -72,14 +72,14 @@ namespace elc {
 
 	public:
 
-		Party() : Party(nullptr, 0) {}
-		Party(char* _partyName, int numOfDistricts = 0) :
+		Party() : Party("", 0) {}
+		Party(string _partyName, int numOfDistricts = 0) :
 			partyName(_partyName), elec_size(numOfDistricts + 1), elec_length(numOfDistricts), partyNumber(numberOfParty)
 		{
 			createElectorsList(elec_size);
 			numberOfParty++;
 		}
-		Party(char* _partyName, const Citizen& _boss, int numOfDistricts = 0)
+		Party(string _partyName, const Citizen& _boss, int numOfDistricts = 0)
 			: partyName(_partyName), elec_size(numOfDistricts + 1), elec_length(numOfDistricts), partyNumber(numberOfParty), boss(_boss)
 		{
 			createElectorsList(elec_size);
@@ -90,24 +90,22 @@ namespace elc {
 		{
 			if (electors != nullptr)
 				delete[] electors;
-			if (partyName != nullptr)
-				delete[] partyName;
 		}
 
-		char* getPartyName() const;
+		string getPartyName() const;
 		const Citizen& getBossID() const;
 		int getPartyNumber() const;
 		const Senator& getSenatorInDist(int distID, int place);
 
-		bool setPartyName(char* _n);
+		bool setPartyName(string _n) { partyName = _n; return true; };
 		bool setBoss(const Citizen& boss);
 		bool setPartyNumber(int n);
 		
 		bool setElectors(Elector* e);
 		
-		bool setParty(char* partyName, const Citizen& boss, int n, Elector* e, int el_size, int el_len);
+		bool setParty(string partyName, const Citizen& boss, int n, Elector* e, int el_size, int el_len);
 
-		bool setParty(char* partyName, const Citizen& boss);
+		bool setParty(string partyName, const Citizen& boss);
 		bool createElectorsList(int numOfDistricts);
 		bool addSenator(int numOfDistrict, const Citizen& rep);
 

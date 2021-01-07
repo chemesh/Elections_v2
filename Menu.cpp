@@ -345,7 +345,7 @@ void results(Elections& e)
 	int party_id, numOfReps;
 	int numOfDistricts = e.getDistrictsLength(), numOfParties = e.getPartiesLength();
 	int** party_order = e.getVotes().getPartiesWinningOrder();
-	const char* partyName;
+	string partyName;
 	const District* dist;
 
 
@@ -428,7 +428,7 @@ void simpleResults(Elections& e)
 	const CitizensList& citizens = e.getCitizensList();
 	int i, numOfReps, party_id, numOfParties = e.getPartiesLength();
 	int** party_order = e.getVotes().getPartiesWinningOrder();
-	char* partyName;
+	string partyName;
 
 	cout << "for Elections " << e.getDate() << ", The elections results are as follow: " << endl << endl
 		<< "With a total of " << e.getVotes().getTotalVotesPrecentage(citizens) << "% votes precentage:" << endl;

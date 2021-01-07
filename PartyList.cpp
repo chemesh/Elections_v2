@@ -71,7 +71,7 @@ namespace elc
 		return list[partyID].getElectorsLength();
 	}
 
-	const char* const PartyList::getPartyName(const int& partyID) const
+	const string const PartyList::getPartyName(const int& partyID) const
 	{
 		return list[partyID].getPartyName();
 	}

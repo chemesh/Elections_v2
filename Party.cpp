@@ -15,17 +15,10 @@ namespace elc {
 		return true;
 	}
 
-	char* Party::getPartyName() const { return partyName; }
+	string Party::getPartyName() const { return partyName; }
 	const Citizen& Party::getBossID() const { return boss; }
 	int Party::getPartyNumber() const { return partyNumber; }
 
-	bool Party::setPartyName(char* _n)
-	{
-		int len = strlen(_n);
-		this->partyName = new char[len + 1];
-		memcpy(this->partyName, _n, len + 1);
-		return true;
-	}
 	bool Party::setBoss(const Citizen& boss)
 	{
 		this->boss = boss;
@@ -66,14 +59,14 @@ namespace elc {
 		return true;
 	}
 
-	bool Party::setParty(char* partyName, const Citizen& boss, int n, Elector* e, int size, int len)
+	bool Party::setParty(string partyName, const Citizen& boss, int n, Elector* e, int size, int len)
 	{
 		return setPartyName(partyName) && setBoss(boss)
 			&& setPartyNumber(n) && setElectors(e) &&
 			setElectorsSize(size) && setElectorsLength(len);
 	}
 
-	bool Party::setParty(char* partyName, const Citizen& boss)
+	bool Party::setParty(string partyName, const Citizen& boss)
 	{
 		return setPartyName(partyName) && setBoss(boss);
 	}
@@ -235,10 +228,10 @@ namespace elc {
 //================================seralization============================================
 	void Party::save(ofstream& out) const
 	{
-		int len = strlen(partyName);
+		int len = partyName.size();
 		int bs = boss.getID();
 		out.write(rcastcc(&len), sizeof(len));	
-		out.write(partyName, len);
+		out.write(rcastcc(partyName.c_str()), len);
 
 		out.write(rcastcc(&partyNumber), sizeof(partyNumber));
 		out.write(rcastcc(&numberOfParty), sizeof(numberOfParty));
@@ -257,9 +250,11 @@ namespace elc {
 	{
 		int len, id;
 		in.read(rcastc(&len), sizeof(len));
-		partyName = new char[len + 1];
-		in.read(partyName, len);
-		partyName[len] = '\0';
+		char* temp = new char[len + 1];
+		in.read(temp, len);
+		temp[len] = '\0';
+		partyName = temp;
+		delete[] temp;
 		in.read(rcastc(&partyNumber), sizeof(partyNumber));
 		in.read(rcastc(&numberOfParty), sizeof(numberOfParty));
 		in.read(rcastc(&id), sizeof(id)); //reads boss id;

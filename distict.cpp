@@ -8,14 +8,14 @@ namespace elc
 		*this = o;
 	}
 
-	bool District::setDistName(const char* _name)
-	{
-		int len = strlen(_name);
-		this->name = new char[len + 1];
-		memcpy(this->name, _name, len + 1);
-		name[len] = '\0';
-		return true;
-	}
+	//bool District::setDistName(const char* _name)
+	//{
+	//	int len = strlen(_name);
+	//	this->name = new char[len + 1];
+	//	memcpy(this->name, _name, len + 1);
+	//	name[len] = '\0';
+	//	return true;
+	//}
 
 	bool District::setDistID(const int& _id)
 	{
@@ -72,7 +72,7 @@ namespace elc
 		return true;
 	}
 
-	const char* District::getDistName() const
+	const string District::getDistName() const
 	{
 		return name;
 	}
@@ -154,14 +154,14 @@ namespace elc
 	}
 
 
-	bool District::setDistrict(const char* _name, int id, int numOfReps, float voterPer, const CitizensList& cList, Representatives* rList)
+	bool District::setDistrict(const std::string _name, int id, int numOfReps, float voterPer, const CitizensList& cList, Representatives* rList)
 	{
 		return (setDistName(_name) && setDistID(id) && setDistReps(numOfReps) &&
 			setVotersPersentage(voterPer) && setCitizenList(cList) && setRepsList(rList));
 	}
 
 
-	bool District::setDistrict(const char* _name, int numOfReps)
+	bool District::setDistrict(const std::string _name, int numOfReps)
 	{
 		setDistName(_name);
 		setDistReps(numOfReps);
@@ -213,9 +213,9 @@ namespace elc
 
 	void District::save(ofstream& out) const 
 	{
-		int len = strlen(name);
+		int len = name.size();
 		out.write(rcastcc(&len), sizeof(len));									 // name length
-		out.write(name, len);												// len+1 for the '\0'
+		out.write(rcastcc(name.c_str()), len);									 // name bits
 		out.write(rcastcc(&distID), sizeof(distID));							 // int distID
 		out.write(rcastcc(&totalReps), sizeof(totalReps));						 // int - total reps
 		out.write(rcastcc(&voters_precentage), sizeof(voters_precentage));       // float - votes percentag
@@ -232,9 +232,11 @@ namespace elc
 	{
 		int len;
 		in.read(rcastc(&len), sizeof(len));
-		name = new char[len + 1];
-		in.read(name, len);
-		name[len] = '\0';
+		char* temp = new char[len + 1];
+		in.read(temp, len);
+		temp[len] = '\0';///assing string input as char* first
+		name = temp;	 ///assing string input as char* first
+		delete[] temp;	 ///assing string input as char* first
 		in.read(rcastc(&distID), sizeof(distID));
 		in.read(rcastc(&totalReps), sizeof(totalReps));
 		in.read(rcastc(&voters_precentage), sizeof(voters_precentage));
