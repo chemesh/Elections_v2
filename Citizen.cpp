@@ -9,7 +9,7 @@ namespace elc {
 
 	Citizen::Citizen(const Citizen& other)
 	{
-		setCitizen(other.name, other.ID, *other.dist, other.YOB);
+		setCitizen(other.name, other.ID, *other.dist, other.YOB, other.hasVoted);
 	}
 
 	std::string Citizen::getName() const { return name; }
@@ -33,15 +33,15 @@ namespace elc {
 		this->YOB = year;
 		return true;
 	}
-	bool Citizen::setCitizen(const std::string name, int id, const District& dist, int year)
+	bool Citizen::setCitizen(const std::string name, int id, const District& dist, int year, bool vote)
 	{
 		return setName(name) && setID(id) &&
-			setDistrict(dist) && setYOB(year);
+			setDistrict(dist) && setYOB(year) && setVote(vote);
 	}
 
 	void Citizen::operator=(const Citizen& o)
 	{
-		setCitizen(o.name, o.ID, *o.dist, o.YOB);
+		setCitizen(o.name, o.ID, *o.dist, o.YOB, o.hasVoted);
 	}
 
 	 std::ostream& operator<<(std::ostream& out, const Citizen& other)
@@ -53,6 +53,7 @@ namespace elc {
 			<< "district: " << other.dist->getDistName() << ".";
 		return out;
 	}
+
 	 
 	/**************************serialiazion***************************/
 	 void Citizen::save(std::ofstream& out) const

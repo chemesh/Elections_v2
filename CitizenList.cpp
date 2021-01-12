@@ -2,164 +2,73 @@
 
 namespace elc
 {
-	bool CitizensList::setSize(const int& _size)
-	{
-		Citizen* temp = new Citizen[_size];
-
-		for (int i = 0; i < size; i++)
-			temp[i] = list[i];
-		this->size = _size;
-		//delete[] list; 
-		list = temp;
-		return true;
-	}
-
-	bool CitizensList::setLength(const int& len)
-	{
-		this->length = len;
-		return true;
-	}
 
 	bool CitizensList::setCitizen(const string name, int id, int yob, const District& district)
 	{
-		if (isFull())
-		{
-			setSize(size * 2);
-		}
-		list[length].setCitizen(name, id, district, yob);
-		setLength(length + 1);
+		setCitizen(Citizen(name, id, district, yob));
 		return true;
 	}
 
 	bool CitizensList::setCitizen(const Citizen& citizen)
 	{
-		setCitizen(citizen.getName(), citizen.getID(), citizen.getYOB(), citizen.getDistrict());
+		list.push_back(citizen);
 		return true;
 	}
 
-	int CitizensList::getSize() const
-	{
-		return this->size;
-	}
-
-	int CitizensList::getLength() const
-	{
-		return this->length;
-	}
 
 	Citizen* const CitizensList::getCitizen(int id) const
 	{
-		int index = getCitizenIndex(id);
-		if (index != -1)
-			return &list[index];
-		return nullptr;
-	}
 
-	int CitizensList::getCitizenIndex(int id) const
-	{
-		int start = 0, end = length;
-		int mid;
+		//using find_if std fuction, because we need to find the citizen obj maching ID
+		//using lambda fuction as learn on stack-overflow
+		//https://stackoverflow.com/questions/15517991/search-a-vector-of-objects-by-object-attribute
 
-		while (start < end)
+		auto it = find_if(list.begin(), list.end(), [&id](const Citizen& obj) {return obj.getID() == id; });
+
+		if (it != list.end())
 		{
-			mid = (start + end) / 2;
-			if (id < list[mid].getID())
-				end = mid;
-			else if (id > list[mid].getID())
-				start = mid + 1;
-			else		//id == list[mid].id
-				return mid;
+			return it._Ptr; //return the pointer of the element in terator?
 		}
-		return -1;
+
+		return nullptr; //if citizen not found then,
 	}
 
-	const Citizen* const CitizensList::getList()const
+	const vector<Citizen>  CitizensList::getList()const
 	{
 		return list;
 	}
 
 	bool CitizensList::removeCitizen(const Citizen& _citizen)
 	{
-		int index = getCitizenIndex(_citizen.getID());
-		int i;
-
-		for (i = index; i < length; i++)
+		for (vector<Citizen>::iterator itr = list.begin();
+			itr != list.end(); itr++)
 		{
-			list[i] = list[i + 1];
+			if (itr->getID() == _citizen.getID())
+			{
+				list.erase(itr);
+				return true;
+			}
 		}
-		setLength(length - 1);
-		return true;
-	}
-
-	bool CitizensList::isFull()
-	{
-		if (length == size)
-			return true;
 		return false;
 	}
 
-
-	void CitizensList::mergeSort(Citizen* arr, int l, int r)
+	std::ostream& operator<<(std::ostream& out, const CitizensList& other)
 	{
-
-		int m;
-
-		if (l > r)
+		for (int i = 0; i < other.list.size(); i++)
 		{
-			m = (l + r) / 2;
-			mergeSort(arr, l, m);
-			mergeSort(arr, m + 1, r);
-			merge(arr, l, m, r);
+			cout << other.list[i] << '\n';
 		}
+		return out;
 	}
-
-	void CitizensList::merge(Citizen* arr, int l, int m, int r)
-	{
-		int idx1 = l, idx2 = m + 1;
-		int j = 0, _size = (r - l + 1);
-		Citizen* temp = new Citizen[_size];
-
-
-		while (idx1 < m && idx2 < r)
-		{
-			if (arr[idx1].getID() <= arr[idx2].getID())
-			{
-				temp[j++] = arr[idx1++];
-			}
-
-			else
-				temp[j++] = arr[idx2++];
-		}
-
-		while (idx1 < m)
-			temp[j++] = arr[idx1++];
-		while (idx2 < r)
-			temp[j++] = arr[idx2++];
-
-		for (int i = l; i < r; i++)
-			arr[i] = temp[i];
-
-		delete[] temp;
-	}
-
-	void CitizensList::operator=(const CitizensList& o)
-	{
-		setSize(o.size);
-		setLength(o.length);
-		for (int i = 0; i < o.length; i++)
-		{
-			list[i] = o.list[i];
-		}
-
-	}
-
 	/**************************serialiazion***************************/
 	void CitizensList::save(ofstream& out) const
 	{
+		int size = list.size();
+		int capacity = list.capacity();
 
+		out.write(rcastcc(&capacity), sizeof(capacity));
 		out.write(rcastcc(&size), sizeof(size));
-		out.write(rcastcc(&length), sizeof(length));
-		for (int i = 0; i < length; ++i)
+		for (int i = 0; i < size; ++i)
 		{
 			list[i].save(out);
 		}
@@ -167,10 +76,13 @@ namespace elc
 
 	void CitizensList::load(ifstream& in, const DistrictsList& _list)
 	{
+		int size;
+		int capacity;
+		in.read(rcastc(&capacity), sizeof(capacity));
 		in.read(rcastc(&size), sizeof(size));
-		in.read(rcastc(&length), sizeof(length));
-		list = new Citizen[size];
-		for (int i = 0; i < length; i++)
+
+		list =  vector<Citizen>(capacity);
+		for (int i = 0; i < size; i++)
 		{
 			list[i].load(in, _list);
 		}

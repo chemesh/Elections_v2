@@ -21,7 +21,7 @@ namespace elc {
 	void Elections::addCitizen(const char* name, int id, const District& dist, int yob)
 	{
 		citizens.setCitizen(name, id, yob, dist);
-		districts.setCitizenInDist(*citizens.getCitizen(id), dist);
+		districts.setCitizenInDist(citizens.getList().back(), dist); //we just push_back a citizen to citizen list, so we get it.
 	}
 	void Elections::addParty(char* name, const Citizen& boss)
 	{
@@ -49,7 +49,7 @@ namespace elc {
 
 	Citizen* Elections::findCitizen(int id)
 	{
-		citizens.CitizenSort();
+		//citizens.CitizenSort();
 		return (citizens.getCitizen(id));
 		//if ID doesn't exist in the database,
 		//the return value will be nullptr
@@ -146,7 +146,7 @@ namespace elc {
 
 		void Elections::fixLoadOfDistricts()
 		{
-			int idx = citizens.getLength();
+			int idx = citizens.getList().size();
 			int id;
 			for (int i = 0; i < idx; i++)
 			{

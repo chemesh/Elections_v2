@@ -146,7 +146,7 @@ namespace elc
 
 	const float& Votes::getTotalVotesPrecentage(const CitizensList& list)const
 	{
-		int i, citizens = list.getLength();
+		int i, citizens = list.getList().size();
 		float totalVotes = 0;
 
 		for (i = 0; i < numOfDistricts; i++)
@@ -160,7 +160,7 @@ namespace elc
 
 	const float& Votes::getDistVotesPrecantage(const District& dist)const
 	{
-		int i, citizens = dist.GetDistCitizens().getLength();
+		int i, citizens = dist.GetDistCitizens().getList().size();
 		float votes = getTotalVotesInDistrict(dist.getDistID());
 
 		return (100 * (votes / citizens));

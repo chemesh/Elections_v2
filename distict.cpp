@@ -31,7 +31,7 @@ namespace elc
 
 	bool District::setVoters(int& allCitizens)
 	{
-		voters_precentage = citizens.getLength() / float(allCitizens);
+		voters_precentage = citizens.getList().size() / float(allCitizens);
 		return true;
 	}
 

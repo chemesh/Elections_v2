@@ -40,7 +40,7 @@ namespace elc {
 		bool setID(int id);
 		bool setDistrict(const District& _dist);
 		bool setYOB(int year);
-		bool setCitizen(const std::string name, int id, const District& dist, int year);
+		bool setCitizen(const std::string name, int id, const District& dist, int year, bool vote);
 		bool setVote(bool val) { hasVoted = val; return true; }
 
 		friend std::ostream& operator<<(std::ostream& out, const Citizen& other);

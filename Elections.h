@@ -29,14 +29,13 @@ namespace elc {
 			load(in);
 		}
 
-
 		void handleSimpleRound(char* name, const int& reps)
 		{	
 			districts.setDistrict(name, reps, true);
 		}
 
 		int getPartiesLength() const { return parties.getLength(); }
-		int getCitizensLength() const { return citizens.getLength(); }
+		int getCitizensLength() const { return citizens.getList().size(); }
 		int getDistrictsLength() const { return districts.getLength(); }
 
 
