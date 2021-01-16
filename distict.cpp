@@ -25,7 +25,8 @@ namespace elc
 
 	bool District::setDistCitizenInList(const Citizen& _citizen)
 	{
-		return citizens.setCitizen(_citizen);
+		citizens.setCitizen(_citizen);
+		return true;
 
 	}
 

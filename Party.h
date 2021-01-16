@@ -28,7 +28,7 @@ namespace elc {
 	//========================================================================================================
 	//========================================================================================================
 	//each class of elector, represent the list of representives of the party, for the district.
-	class Elector {
+	class Elector { 
 
 	private:
 		int districtId;

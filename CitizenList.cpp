@@ -3,16 +3,14 @@
 namespace elc
 {
 
-	bool CitizensList::setCitizen(const string name, int id, int yob, const District& district)
+	void CitizensList::setCitizen(const string name, int id, int yob, const District& district)
 	{
 		setCitizen(Citizen(name, id, district, yob));
-		return true;
 	}
 
-	bool CitizensList::setCitizen(const Citizen& citizen)
+	void CitizensList::setCitizen(const Citizen& citizen)
 	{
 		list.push_back(citizen);
-		return true;
 	}
 
 

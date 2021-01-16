@@ -19,9 +19,10 @@ namespace elc {
 	public:
 		CitizensList ()  {}
 		~CitizensList()  {}
+		//
 
-		bool setCitizen(const Citizen&);
-		bool setCitizen(const string name, int id, int yob, const District& district);
+		void setCitizen(const Citizen&);
+		void setCitizen(const string name, int id, int yob, const District& district);
 
 		Citizen* const getCitizen(int id) const;
 		const vector<Citizen> getList() const;
